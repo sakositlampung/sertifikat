@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistem Sertifikat SAKO SIT Lampung</title>
 
+  <!-- FAVICON DARI GOOGLE DRIVE -->
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1tcGKStRpQVCexhLIF4koMJq2waDHoPnn">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
@@ -77,10 +80,9 @@
   <div id="sidebarOverlay" onclick="closeSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden transition-opacity duration-300"></div>
   
   <aside id="sidebarDrawer" class="fixed top-0 left-0 bottom-0 w-72 bg-brand-navy text-white z-50 -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col overflow-y-auto">
-    <!-- Sidebar Header -->
     <div class="p-4 border-b border-white/10 flex items-center justify-between">
       <div class="flex items-center space-x-2">
-        <i class="fa-solid fa-bars-staggered text-amber-400"></i>
+        <img src="https://lh3.googleusercontent.com/d/1tcGKStRpQVCexhLIF4koMJq2waDHoPnn" class="w-6 h-6 object-contain" alt="Logo">
         <span class="font-bold text-sm tracking-wide">SAKO SIT LAMPUNG</span>
       </div>
       <button onclick="closeSidebar()" class="p-1.5 text-gray-400 hover:text-white rounded-lg transition">
@@ -96,14 +98,11 @@
 
     <!-- Sidebar Navigation Menu Items -->
     <div class="p-4 space-y-3 flex-grow text-xs font-medium">
-      
-      <!-- CEK SERTIFIKAT PUBLIK -->
       <button onclick="sidebarNav('public_search')" class="w-full text-left px-3 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 flex items-center space-x-2 font-bold text-white transition">
         <i class="fa-solid fa-magnifying-glass text-amber-400"></i>
         <span>Cek Keaslian Sertifikat</span>
       </button>
 
-      <!-- KATALOG AGENDA NAV (HANYA DITAMPILKAN JIKA ADMIN LOGGED IN) -->
       <button id="sidebarAgendasBtn" onclick="goToAgendasGrid()" class="hidden w-full text-left px-3 py-2.5 rounded-lg bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 flex items-center space-x-2 font-bold transition">
         <i class="fa-solid fa-folder-tree text-amber-400"></i>
         <span>Katalog Agenda / Kelola Admin</span>
@@ -124,7 +123,6 @@
 
           <div id="dataSertifikatSubmenu" class="pl-3 space-y-1 pt-1">
             <div id="sidebarDynamicCategoriesContainer" class="space-y-1"></div>
-            
             <div class="border-t border-white/10 my-1.5"></div>
             
             <button onclick="sidebarActionExport()" class="w-full text-left px-3 py-1.5 rounded bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 font-bold flex items-center space-x-2 transition">
@@ -155,7 +153,6 @@
           <span id="sidebarAuthText">Login Admin</span>
         </button>
       </div>
-
     </div>
   </aside>
 
@@ -163,31 +160,28 @@
   <header id="appHeader" class="bg-brand-navy text-white shadow-md sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
-      <!-- Left Controls: Hamburger Button & Logo -->
       <div class="flex items-center space-x-3">
         <button id="btnHamburger" onclick="toggleSidebar()" class="p-2 text-white hover:bg-white/10 rounded-lg text-lg transition focus:outline-none flex items-center justify-center w-9 h-9">
           <i id="hamburgerIcon" class="fa-solid fa-bars"></i>
         </button>
 
         <div class="flex items-center space-x-2.5 cursor-pointer" onclick="switchView('public_search')">
-          <div id="headerLogoBg" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-white shadow-sm font-bold border border-white/20 shrink-0 dynamic-theme-bg">
-            <i class="fa-solid fa-tent text-base sm:text-lg"></i>
+          <div id="headerLogoBg" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-white shadow-sm font-bold border border-white/20 shrink-0 dynamic-theme-bg overflow-hidden p-1">
+            <img src="https://lh3.googleusercontent.com/d/1tcGKStRpQVCexhLIF4koMJq2waDHoPnn" class="w-full h-full object-contain" alt="Logo">
           </div>
           <div>
             <h1 class="font-bold text-sm sm:text-lg leading-tight tracking-wide">SAKO SIT LAMPUNG</h1>
-            <p class="text-[10px] sm:text-[11px] text-gray-300" id="headerSubtitleText">Sistem Sertifikat Resmi</p>
+            <p class="text-[10px] sm:text-[11px] text-gray-300" id="headerSubtitleText">Sistem Sertifikat Realtime Cloud</p>
           </div>
         </div>
       </div>
 
-      <!-- Right Action Buttons (Desktop Only) -->
       <div id="navRightButtons" class="hidden sm:flex items-center space-x-2 sm:space-x-3">
         <button onclick="switchView('public_search')" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs sm:text-sm font-medium transition flex items-center space-x-1.5">
           <i class="fa-solid fa-magnifying-glass"></i>
           <span>Cek Sertifikat</span>
         </button>
 
-        <!-- TOMBOL DAFTAR AGENDA (HANYA MUNCUL SETELAH LOGIN ADMIN) -->
         <button id="navAgendasBtn" onclick="goToAgendasGrid()" class="hidden px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs sm:text-sm font-bold transition flex items-center space-x-1.5">
           <i class="fa-solid fa-folder-tree"></i>
           <span>Daftar Agenda</span>
@@ -204,11 +198,11 @@
   <!-- MAIN APPLICATION CONTENT -->
   <main class="flex-grow flex flex-col">
 
-    <!-- VIEW 1: PUBLIC SEARCH PAGE (DEFAULT UTAMA LANDING PAGE) -->
+    <!-- VIEW 1: PUBLIC SEARCH PAGE -->
     <section id="viewPublicSearch" class="flex-grow bg-gradient-to-b from-red-600 via-red-700 to-red-800 py-8 sm:py-12 px-4 flex flex-col items-center justify-center text-white transition-colors duration-500">
       <div class="max-w-xl w-full text-center space-y-6">
-        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full mx-auto flex items-center justify-center text-red-600 text-2xl sm:text-3xl shadow-xl dynamic-theme-text">
-          <i class="fa-solid fa-certificate"></i>
+        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full mx-auto flex items-center justify-center text-red-600 text-2xl sm:text-3xl shadow-xl dynamic-theme-text overflow-hidden p-3">
+          <img src="https://lh3.googleusercontent.com/d/1tcGKStRpQVCexhLIF4koMJq2waDHoPnn" class="w-full h-full object-contain" alt="Logo">
         </div>
         <div>
           <h2 class="text-xl sm:text-3xl font-extrabold tracking-wide uppercase">Cek Keaslian Sertifikat</h2>
@@ -216,7 +210,7 @@
         </div>
 
         <div class="bg-white/10 backdrop-blur-md p-2 rounded-2xl border border-white/20 shadow-2xl flex flex-col sm:flex-row gap-2">
-          <input type="text" id="publicSearchInput" placeholder="Masukkan Nama Lengkap, Nomor Sertifikat, atau 4 Digit ID..." 
+          <input type="text" id="publicSearchInput" placeholder="Masukkan Nama Lengkap, Nomor Sertifikat, atau ID..." 
                  onkeypress="if(event.key==='Enter') searchCertificate()"
                  class="w-full px-4 py-3 rounded-xl bg-white text-gray-800 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400">
           <button onclick="searchCertificate()" class="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-gray-900 font-bold rounded-xl text-sm transition shadow flex items-center justify-center space-x-2 shrink-0">
@@ -229,10 +223,9 @@
       </div>
     </section>
 
-    <!-- VIEW 2: AGENDAS GRID CATALOG (KELOLA / PILIH AGENDA - HANYA ADMIN) -->
+    <!-- VIEW 2: AGENDAS GRID CATALOG -->
     <section id="viewAgendasGrid" class="hidden flex-grow bg-gray-50 py-8 px-4">
       <div class="max-w-7xl mx-auto space-y-6">
-        
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
           <div>
             <h2 class="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight flex items-center space-x-2">
@@ -248,7 +241,6 @@
           </button>
         </div>
 
-        <!-- GRID AGENDA CARDS CONTAINER -->
         <div id="agendasGridContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
       </div>
     </section>
@@ -257,10 +249,8 @@
     <section id="viewPublicVerification" class="hidden flex-grow bg-gradient-to-b from-red-600 via-red-700 to-red-800 py-10 px-4 flex flex-col items-center justify-center transition-colors duration-500">
       <div class="mb-6 text-center">
         <div class="w-24 h-24 sm:w-28 sm:h-28 bg-white rounded-full mx-auto flex items-center justify-center p-2 shadow-xl border-4 border-white/30">
-          <div class="w-full h-full rounded-full bg-gradient-to-tr from-amber-500 to-red-700 flex flex-col items-center justify-center text-white text-center p-1 border border-amber-300 dynamic-theme-bg">
-            <i class="fa-solid fa-award text-2xl sm:text-3xl mb-0.5 text-yellow-200"></i>
-            <span class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tighter leading-none" id="verificationBadgeTitle">KEMBARANAS III</span>
-            <span class="text-[6px] sm:text-[7px] font-semibold text-amber-100 tracking-wider">SAKO SIT 2026</span>
+          <div class="w-full h-full rounded-full bg-gradient-to-tr from-amber-500 to-red-700 flex flex-col items-center justify-center text-white text-center p-1 border border-amber-300 dynamic-theme-bg overflow-hidden p-2">
+            <img src="https://lh3.googleusercontent.com/d/1tcGKStRpQVCexhLIF4koMJq2waDHoPnn" class="w-full h-full object-contain" alt="Logo">
           </div>
         </div>
         <h2 class="text-white text-xl sm:text-2xl md:text-3xl font-extrabold tracking-wider uppercase mt-4 drop-shadow-md">
@@ -272,7 +262,7 @@
         <div class="p-6 sm:p-8 space-y-4 text-gray-800" id="publicCertCardContent"></div>
         <div class="bg-emerald-50 border-t border-emerald-100 p-4 text-center flex items-center justify-center space-x-2 text-emerald-800 text-xs sm:text-sm font-semibold">
           <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
-          <span>Sertifikat Terverifikasi Resmi Sistem SAKO SIT</span>
+          <span>Sertifikat Terverifikasi Resmi Cloud Firebase SAKO SIT</span>
         </div>
       </div>
 
@@ -296,11 +286,10 @@
             <span class="px-2.5 py-1 bg-red-100 text-red-700 rounded-md text-xs font-bold uppercase tracking-wider">
               <i class="fa-solid fa-shield-halved mr-1"></i> Admin Panel
             </span>
-            <span class="text-xs text-gray-500 hidden sm:inline">| Agenda: <strong id="adminDashboardAgendaName" class="text-gray-800">Kembaranas III</strong></span>
+            <span class="text-xs text-gray-500 hidden sm:inline">| Agenda: <strong id="adminDashboardAgendaName" class="text-gray-800">Agenda</strong></span>
           </div>
 
           <div class="flex items-center space-x-2">
-            <!-- PENGATURAN AGENDA (WARNA & FORMAT SERTIFIKAT) -->
             <button onclick="openEditCurrentAgendaModal()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-gray-100 hover:bg-gray-200 text-gray-800 transition flex items-center space-x-1.5 border border-gray-300">
               <i class="fa-solid fa-sliders text-amber-600"></i>
               <span class="hidden sm:inline">Pengaturan Agenda</span>
@@ -335,12 +324,10 @@
                        class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
               </div>
 
-              <!-- DYNAMIC CATEGORY FILTER BUTTONS CONTAINER -->
               <div class="flex items-center space-x-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0" id="adminCategoryFiltersContainer"></div>
 
               <div class="flex items-center space-x-2 w-full md:w-auto justify-end">
-                <!-- TOMBOL POPUP MANAJEMEN KATEGORI -->
-                <button onclick="openCategoryManagerModal()" class="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-lg transition flex items-center space-x-1.5 shadow-sm" title="Kelola / Tambah / Edit Kategori">
+                <button onclick="openCategoryManagerModal()" class="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-lg transition flex items-center space-x-1.5 shadow-sm">
                   <i class="fa-solid fa-tags"></i>
                   <span>Kelola Kategori</span>
                 </button>
@@ -427,7 +414,7 @@
                   <i class="fa-solid fa-file-excel text-emerald-600 text-xl"></i>
                   <span>Import Data dari File Excel (.xlsx / .csv)</span>
                 </h3>
-                <p class="text-xs text-gray-500 mt-0.5">Unggah file Excel untuk disimpan otomatis ke Cloud Firestore Server.</p>
+                <p class="text-xs text-gray-500 mt-0.5">Unggah file Excel untuk disimpan otomatis ke Firebase Firestore Realtime.</p>
               </div>
 
               <button onclick="downloadExcelTemplate()" class="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 text-xs font-bold rounded-lg transition flex items-center space-x-1.5">
@@ -621,8 +608,8 @@
 
               <div class="pt-2 flex flex-col gap-2">
                 <button onclick="saveCurrentLayoutExplicitly()" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs transition flex items-center justify-center space-x-2 shadow">
-                  <i class="fa-solid fa-floppy-disk"></i>
-                  <span>Simpan Pengaturan Layout</span>
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span>Simpan Pengaturan Layout ke Firebase Cloud</span>
                 </button>
 
                 <div class="flex gap-2">
@@ -662,10 +649,10 @@
   </main>
 
   <footer class="bg-white border-t border-gray-200 py-4 text-center text-xs text-gray-500">
-    <p>© 2026 SAKO SIT Indonesia - Wilayah Lampung</p>
+    <p>© 2026 SAKO SIT Indonesia - Wilayah Lampung | Realtime Firebase Sync</p>
   </footer>
 
-  <!-- MODAL ADD/EDIT AGENDA BARU (WARNA TEMA & FORMAT NOMOR SURAT CUSTOM) -->
+  <!-- MODAL ADD/EDIT AGENDA BARU -->
   <div id="addAgendaModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl p-6 space-y-4 relative modal-scale-up">
       <button onclick="closeAddAgendaModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
@@ -701,7 +688,6 @@
           </div>
         </div>
 
-        <!-- FITUR 2: PENGATURAN WARNA AGENDA -->
         <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
           <label class="block font-bold text-gray-800 flex items-center space-x-1.5">
             <i class="fa-solid fa-palette text-amber-500"></i>
@@ -721,7 +707,6 @@
           </div>
         </div>
 
-        <!-- FITUR 3: FORMAT NOMOR SERTIFIKAT CUSTOM PER AGENDA -->
         <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 space-y-2">
           <label class="block font-bold text-amber-900 flex items-center space-x-1.5">
             <i class="fa-solid fa-hashtag text-amber-600"></i>
@@ -746,7 +731,7 @@
     </div>
   </div>
 
-  <!-- POP-UP MODAL MANAJEMEN KATEGORI (MENGGANTIKAN NATIVE PROMPT BROWSER) -->
+  <!-- POP-UP MODAL MANAJEMEN KATEGORI -->
   <div id="categoryManagerModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 space-y-4 relative modal-scale-up">
       <button onclick="closeCategoryManagerModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
@@ -758,16 +743,14 @@
           <i class="fa-solid fa-tags text-purple-600"></i>
           <span>Kelola Kategori Sertifikat</span>
         </h3>
-        <p class="text-xs text-gray-500">Tambah, ubah nama, atau hapus kategori sertifikat untuk agenda ini.</p>
+        <p class="text-xs text-gray-500">Tambah, ubah nama, atau hapus kategori sertifikat secara realtime.</p>
       </div>
 
-      <!-- DAFTAR KATEGORI SAAT INI -->
       <div class="space-y-2">
-        <label class="block text-xs font-bold text-gray-700">Kategori Aktif:</label>
+        <label class="block text-xs font-bold text-gray-700">Kategori Aktif Agenda Ini:</label>
         <div id="categoryManagerList" class="space-y-1.5 max-h-48 overflow-y-auto pr-1"></div>
       </div>
 
-      <!-- FORM TAMBAH KATEGORI BARU -->
       <div class="pt-2 border-t border-gray-100 space-y-2">
         <label class="block text-xs font-bold text-gray-700">Tambah Kategori Baru:</label>
         <div class="flex gap-2">
@@ -794,8 +777,8 @@
       </button>
 
       <div class="text-center space-y-1">
-        <div class="w-14 h-14 bg-red-100 text-red-600 rounded-full mx-auto flex items-center justify-center text-xl dynamic-theme-text">
-          <i class="fa-solid fa-user-shield"></i>
+        <div class="w-14 h-14 bg-red-100 text-red-600 rounded-full mx-auto flex items-center justify-center text-xl dynamic-theme-text overflow-hidden p-2">
+          <img src="https://lh3.googleusercontent.com/d/1tcGKStRpQVCexhLIF4koMJq2waDHoPnn" class="w-full h-full object-contain" alt="Logo">
         </div>
         <h3 class="text-xl font-extrabold text-gray-900">Login Admin Sertifikat</h3>
         <p class="text-xs text-gray-500">Sistem SAKO SIT Lampung</p>
@@ -858,7 +841,7 @@
 
         <div class="flex justify-end space-x-2 pt-2">
           <button type="button" onclick="closeAddEditModal()" class="px-4 py-2 border rounded-lg text-gray-700 font-semibold text-xs">Batal</button>
-          <button type="submit" class="px-5 py-2 text-white font-bold rounded-lg text-xs shadow dynamic-theme-bg">Simpan Data</button>
+          <button type="submit" class="px-5 py-2 text-white font-bold rounded-lg text-xs shadow dynamic-theme-bg">Simpan Data Ke Cloud</button>
         </div>
       </form>
     </div>
@@ -889,7 +872,7 @@
 
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 space-y-2.5 pointer-events-none"></div>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <!-- FIREBASE REALTIME ENGINE & LOGIC SCRIPT -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyBbQIN4Eq8crgq06JPmedey29qz0bhd05w",
@@ -928,7 +911,10 @@
       pageSize: 10,
       selectedIds: new Set(),
       confirmCallback: null,
-      importPreviewData: []
+      importPreviewData: [],
+      unsubscribeAgendas: null,
+      unsubscribeCertificates: null,
+      unsubscribeLayouts: null
     };
 
     function normalizeCategory(cat) {
@@ -936,7 +922,6 @@
       return String(cat).trim();
     }
 
-    // MEMBUAT FORMAT NOMOR SERTIFIKAT CUSTOM PER AGENDA
     function generateCertNumberString(numCodeStr, agenda) {
       const ag = agenda || state.currentAgenda;
       const numCode = String(numCodeStr || '0001').padStart(4, '0');
@@ -949,7 +934,6 @@
         .replace(/{YEAR}/g, '2026');
     }
 
-    // MEMASANG WARNA TEMA KHAS AGENDA TERPILIH
     function applyAgendaThemeColor(hexColor) {
       const color = hexColor || '#fa4622';
       document.documentElement.style.setProperty('--brand-theme-color', color);
@@ -993,7 +977,7 @@
 
     function sidebarActionFilter(cat) {
       closeSidebar();
-      if (!state.currentAgenda) { showToast("Pemberitahuan", "Silakan pilih agenda terlebih dahulu dari Katalog!", "warning"); goToAgendasGrid(); return; }
+      if (!state.currentAgenda) { showToast("Pemberitahuan", "Silakan pilih agenda terlebih dahulu!", "warning"); goToAgendasGrid(); return; }
       if (!state.isAdminLoggedIn) { openLoginModal(); return; }
       switchView('admin');
       switchAdminTab('data');
@@ -1002,7 +986,7 @@
 
     function sidebarActionExport() {
       closeSidebar();
-      if (!state.currentAgenda) { showToast("Pemberitahuan", "Silakan pilih agenda terlebih dahulu dari Katalog!", "warning"); goToAgendasGrid(); return; }
+      if (!state.currentAgenda) { showToast("Pemberitahuan", "Silakan pilih agenda terlebih dahulu!", "warning"); goToAgendasGrid(); return; }
       if (!state.isAdminLoggedIn) { openLoginModal(); return; }
       switchView('admin');
       switchAdminTab('data');
@@ -1011,7 +995,7 @@
 
     function sidebarActionAdd() {
       closeSidebar();
-      if (!state.currentAgenda) { showToast("Pemberitahuan", "Silakan pilih agenda terlebih dahulu dari Katalog!", "warning"); goToAgendasGrid(); return; }
+      if (!state.currentAgenda) { showToast("Pemberitahuan", "Silakan pilih agenda terlebih dahulu!", "warning"); goToAgendasGrid(); return; }
       if (!state.isAdminLoggedIn) { openLoginModal(); return; }
       switchView('admin');
       switchAdminTab('data');
@@ -1023,26 +1007,78 @@
       if (target === 'public_search') {
         switchView('public_search');
       } else {
-        if (!state.currentAgenda) { showToast("Pemberitahuan", "Silakan pilih agenda terlebih dahulu dari Katalog!", "warning"); goToAgendasGrid(); return; }
+        if (!state.currentAgenda) { showToast("Pemberitahuan", "Silakan pilih agenda terlebih dahulu!", "warning"); goToAgendasGrid(); return; }
         if (!state.isAdminLoggedIn) { openLoginModal(); return; }
         switchView('admin');
         switchAdminTab(target);
       }
     }
 
-    window.addEventListener('DOMContentLoaded', async () => {
+    window.addEventListener('DOMContentLoaded', () => {
       state.isAdminLoggedIn = localStorage.getItem('kembaranas_admin_session') === 'true';
-      await loadInitialAgendas();
-      await loadAllCertificatesGlobal();
-      loadLayoutSettings();
+      setupFirebaseRealtimeListeners();
       checkURLParameters();
       updateNavigationVisibility();
     });
 
-    // PENGATURAN VISIBILITAS TOMBOL DAFTAR AGENDA (FITUR 1)
+    // 2. KONEKSI FIREBASE REALTIME ON-SNAPSHOT UNTUK MULTI-USER & SINKRONISASI OTOMATIS
+    function setupFirebaseRealtimeListeners() {
+      // 2A. Listener Realtime untuk Daftar Agenda
+      state.unsubscribeAgendas = db.collection("agendas").onSnapshot(snapshot => {
+        if (!snapshot.empty) {
+          const list = [];
+          snapshot.forEach(doc => list.push(doc.data()));
+          state.agendas = list;
+
+          // Apabila agenda yang sedang dibuka di-update oleh user lain
+          if (state.currentAgenda) {
+            const updated = list.find(a => a.id === state.currentAgenda.id);
+            if (updated) {
+              state.currentAgenda = updated;
+              applyAgendaThemeColor(updated.themeColor);
+              renderDynamicCategoriesUI();
+            }
+          }
+        } else {
+          // Inisialisasi awal ke Firebase jika Firestore masih kosong
+          const batch = db.batch();
+          DEFAULT_AGENDAS.forEach(ag => batch.set(db.collection("agendas").doc(ag.id), ag));
+          batch.commit();
+          state.agendas = DEFAULT_AGENDAS;
+        }
+        renderAgendasGrid();
+      }, err => {
+        console.error("Firestore error Agenda:", err);
+        state.agendas = DEFAULT_AGENDAS;
+        renderAgendasGrid();
+      });
+
+      // 2B. Listener Realtime untuk Layout Canvas Pengaturan Global Cloud
+      state.unsubscribeLayouts = db.collection("settings").doc("canvasLayout").onSnapshot(doc => {
+        if (doc.exists) {
+          state.layouts = doc.data();
+        } else {
+          state.layouts = JSON.parse(JSON.stringify(DEFAULT_LAYOUTS));
+        }
+      });
+    }
+
+    // Listener Realtime khusus Data Sertifikat Agenda Aktif
+    function listenToCertificatesRealtime(agendaId) {
+      if (state.unsubscribeCertificates) state.unsubscribeCertificates();
+
+      state.unsubscribeCertificates = db.collection("certificates")
+        .where("agendaId", "==", agendaId)
+        .onSnapshot(snapshot => {
+          const list = [];
+          snapshot.forEach(doc => list.push(doc.data()));
+          state.certificates = list;
+          renderAdminTable();
+        }, err => console.error("Firestore Certs Error:", err));
+    }
+
     function updateNavigationVisibility() {
       const isLogged = state.isAdminLoggedIn;
-      
       const navBtn = document.getElementById('navAgendasBtn');
       const sideBtn = document.getElementById('sidebarAgendasBtn');
       const addBtn = document.getElementById('btnAddNewAgenda');
@@ -1050,34 +1086,6 @@
       if (navBtn) navBtn.classList.toggle('hidden', !isLogged);
       if (sideBtn) sideBtn.classList.toggle('hidden', !isLogged);
       if (addBtn) addBtn.classList.toggle('hidden', !isLogged);
-    }
-
-    async function loadInitialAgendas() {
-      try {
-        const snapshot = await db.collection("agendas").get();
-        if (!snapshot.empty) {
-          const list = [];
-          snapshot.forEach(doc => list.push(doc.data()));
-          state.agendas = list;
-        } else {
-          state.agendas = DEFAULT_AGENDAS;
-          const batch = db.batch();
-          DEFAULT_AGENDAS.forEach(ag => batch.set(db.collection("agendas").doc(ag.id), ag));
-          await batch.commit().catch(e=>console.error(e));
-        }
-      } catch(e) {
-        state.agendas = DEFAULT_AGENDAS;
-      }
-      renderAgendasGrid();
-    }
-
-    async function loadAllCertificatesGlobal() {
-      try {
-        const snapshot = await db.collection("certificates").get();
-        const fetched = [];
-        snapshot.forEach(doc => fetched.push(doc.data()));
-        state.certificates = fetched;
-      } catch(e) { console.error(e); }
     }
 
     function renderAgendasGrid() {
@@ -1124,7 +1132,7 @@
       });
     }
 
-    async function selectAgenda(agendaId) {
+    function selectAgenda(agendaId) {
       const found = state.agendas.find(a => a.id === agendaId);
       if (!found) return;
 
@@ -1142,9 +1150,9 @@
       document.getElementById('verificationBadgeTitle').innerText = found.id.toUpperCase();
 
       renderDynamicCategoriesUI();
+      listenToCertificatesRealtime(agendaId);
 
-      showToast("Agenda Dipilih ✨", `Memuat Admin Panel: ${found.title}`, "info");
-      await loadCertificatesForAgenda(agendaId);
+      showToast("Agenda Dipilih ✨", `Tersambung ke Cloud Firebase: ${found.title}`, "info");
 
       if (!state.isAdminLoggedIn) {
         openLoginModal();
@@ -1152,7 +1160,6 @@
       switchView('admin');
     }
 
-    // RENDER UI KATEGORI DINAMIS
     function renderDynamicCategoriesUI() {
       const cats = state.currentAgenda && state.currentAgenda.categories ? state.currentAgenda.categories : ["Peserta", "Bindamping", "Panitia", "Petugas Upacara"];
 
@@ -1208,7 +1215,6 @@
       });
     }
 
-    // FITUR 4: POPUP CUSTOM MANAJEMEN KATEGORI
     function openCategoryManagerModal() {
       if (!state.currentAgenda) return;
       renderCategoryManagerList();
@@ -1230,7 +1236,7 @@
         return;
       }
 
-      cats.forEach((cat, idx) => {
+      cats.forEach(cat => {
         const item = document.createElement('div');
         item.className = "flex items-center justify-between p-2 bg-gray-50 border rounded-lg text-xs";
         item.innerHTML = `
@@ -1269,8 +1275,7 @@
       input.value = '';
       renderCategoryManagerList();
       renderDynamicCategoriesUI();
-      renderAdminTable();
-      showToast("Sukses! 🎉", `Kategori "${name}" berhasil ditambahkan!`, "success");
+      showToast("Sukses! 🎉", `Kategori "${name}" berhasil ditambahkan ke Firebase Cloud!`, "success");
     }
 
     async function promptEditCategoryName(oldCat) {
@@ -1280,18 +1285,21 @@
         const idx = state.currentAgenda.categories.indexOf(oldCat);
         if (idx !== -1) {
           state.currentAgenda.categories[idx] = cleanNew;
-          
+
+          const batch = db.batch();
           state.certificates.forEach(c => {
-            if (c.category === oldCat) c.category = cleanNew;
+            if (c.category === oldCat) {
+              c.category = cleanNew;
+              batch.set(db.collection("certificates").doc(c.id), c, { merge: true });
+            }
           });
 
-          await db.collection("agendas").doc(state.currentAgenda.id).set(state.currentAgenda, { merge: true });
-          await saveCertificatesToStorage();
+          batch.set(db.collection("agendas").doc(state.currentAgenda.id), state.currentAgenda, { merge: true });
+          await batch.commit();
 
           renderCategoryManagerList();
           renderDynamicCategoriesUI();
-          renderAdminTable();
-          showToast("Berhasil Diperbarui! ✨", `Kategori "${oldCat}" diubah menjadi "${cleanNew}".`, "success");
+          showToast("Terupdate Realtime! ✨", `Kategori "${oldCat}" diubah menjadi "${cleanNew}".`, "success");
         }
       }
     }
@@ -1306,21 +1314,9 @@
           await db.collection("agendas").doc(state.currentAgenda.id).set(state.currentAgenda, { merge: true });
           renderCategoryManagerList();
           renderDynamicCategoriesUI();
-          renderAdminTable();
-          showToast("Kategori Dihapus 🗑️", `Kategori "${cat}" berhasil dihapus.`, "info");
+          showToast("Kategori Dihapus 🗑️", `Kategori "${cat}" telah dihapus.`, "info");
         }
       });
-    }
-
-    async function loadCertificatesForAgenda(agendaId) {
-      try {
-        const snapshot = await db.collection("certificates").where("agendaId", "==", agendaId).get();
-        const fetched = [];
-        snapshot.forEach(doc => fetched.push(doc.data()));
-        state.certificates = fetched;
-      } catch (err) {
-        state.certificates = [];
-      }
     }
 
     function goToAgendasGrid() {
@@ -1388,13 +1384,8 @@
         applyAgendaThemeColor(themeColor);
       }
 
-      const idx = state.agendas.findIndex(a => a.id === (origId || id));
-      if (idx !== -1) state.agendas[idx] = agendaObj;
-      else state.agendas.push(agendaObj);
-
-      renderAgendasGrid();
       closeAddAgendaModal();
-      showToast("Berhasil Disimpan! 🌟", `Pengaturan agenda "${title}" telah disimpan.`, "success");
+      showToast("Berhasil Disimpan! 🌟", `Pengaturan agenda "${title}" tersimpan di Firebase Cloud.`, "success");
     }
 
     function switchView(viewName) {
@@ -1476,46 +1467,23 @@
         localStorage.setItem('kembaranas_admin_session', 'true');
         closeLoginModal();
         updateNavigationVisibility();
-        showToast("Login Berhasil! 🎉", "Selamat datang di Admin Panel SAKO SIT.", "success");
+        showToast("Login Berhasil! 🎉", "Selamat datang di Admin Panel SAKO SIT Realtime.", "success");
         if (state.currentAgenda) switchView('admin');
         else switchView('agendas_grid');
       } else {
-        showToast("Gagal Login ❌", "Username atau Password yang Anda masukkan salah!", "error");
+        showToast("Gagal Login ❌", "Username atau Password salah!", "error");
       }
     }
 
-    async function saveCertificatesToStorage() {
-      const batch = db.batch();
-      state.certificates.forEach(cert => {
-        const docRef = db.collection("certificates").doc(String(cert.id));
-        batch.set(docRef, { ...cert, agendaId: state.currentAgenda ? state.currentAgenda.id : 'default' }, { merge: true });
-      });
-      await batch.commit().catch(e => console.error("Firestore error:", e));
-    }
-
-    function loadLayoutSettings() {
-      const saved = localStorage.getItem('kembaranas_layout_v3');
-      if (saved) {
-        try { state.layouts = JSON.parse(saved); } catch(e) { state.layouts = JSON.parse(JSON.stringify(DEFAULT_LAYOUTS)); }
-      } else {
-        state.layouts = JSON.parse(JSON.stringify(DEFAULT_LAYOUTS));
-      }
-    }
-
-    function saveLayoutSettings() {
-      try {
-        localStorage.setItem('kembaranas_layout_v3', JSON.stringify(state.layouts));
-        return true;
-      } catch (err) {
-        return false;
-      }
-    }
-
-    function saveCurrentLayoutExplicitly() {
+    async function saveCurrentLayoutExplicitly() {
       onLayoutInputChange();
-      const success = saveLayoutSettings();
-      const cat = document.getElementById('editorCategorySelect')?.value || 'Peserta';
-      if (success) showToast("Tersimpan! 🎨", `Pengaturan layout kategori "${cat}" berhasil disimpan.`, "success");
+      try {
+        await db.collection("settings").doc("canvasLayout").set(state.layouts, { merge: true });
+        const cat = document.getElementById('editorCategorySelect')?.value || 'Peserta';
+        showToast("Tersimpan Cloud! 🎨", `Pengaturan layout "${cat}" telah tersimpan di Firebase Cloud.`, "success");
+      } catch(err) {
+        showToast("Error", "Gagal menyimpan layout ke Firebase Cloud", "error");
+      }
     }
 
     function searchCertificate() {
@@ -1530,38 +1498,38 @@
     async function loadCertByCode(query) {
       if (!query) return;
       const q = String(query).trim().toLowerCase();
-      let matches = filterCertificates(q);
 
-      if (matches.length === 0) {
-        await loadAllCertificatesGlobal();
-        matches = filterCertificates(q);
+      try {
+        const snapshot = await db.collection("certificates").get();
+        const globalCerts = [];
+        snapshot.forEach(doc => globalCerts.push(doc.data()));
+
+        const matches = globalCerts.filter(c => {
+          const idMatch = c.id && String(c.id).trim().toLowerCase() === q;
+          const numMatch = c.numCode && String(c.numCode).trim().toLowerCase() === q;
+          const certNoMatch = c.certNo && c.certNo.toLowerCase().includes(q);
+          const nameMatch = c.name && c.name.toLowerCase().includes(q);
+          const schoolMatch = c.school && c.school.toLowerCase().includes(q);
+          return idMatch || numMatch || certNoMatch || nameMatch || schoolMatch;
+        });
+
+        const resultsContainer = document.getElementById('publicSearchResults');
+
+        if (matches.length === 0) {
+          if (resultsContainer) resultsContainer.classList.add('hidden');
+          showToast("Tidak Ditemukan 🔍", `Data sertifikat "${query}" tidak ditemukan di Firebase Server.`, "error");
+          switchView('public_search');
+        } else if (matches.length === 1) {
+          if (resultsContainer) resultsContainer.classList.add('hidden');
+          state.activeCert = matches[0];
+          switchView('public_verification');
+          showToast("Sertifikat Terverifikasi! ✅", `Penerima: ${matches[0].name}`, "success");
+        } else {
+          renderPublicSearchResults(matches, query);
+        }
+      } catch(e) {
+        showToast("Error", "Gagal mengambil data dari server Firebase.", "error");
       }
-
-      const resultsContainer = document.getElementById('publicSearchResults');
-
-      if (matches.length === 0) {
-        if (resultsContainer) resultsContainer.classList.add('hidden');
-        showToast("Tidak Ditemukan 🔍", `Data sertifikat untuk "${query}" tidak ditemukan.`, "error");
-        switchView('public_search');
-      } else if (matches.length === 1) {
-        if (resultsContainer) resultsContainer.classList.add('hidden');
-        state.activeCert = matches[0];
-        switchView('public_verification');
-        showToast("Sertifikat Ditemukan! ✅", `Menampilkan rincian sertifikat ${matches[0].name}.`, "success");
-      } else {
-        renderPublicSearchResults(matches, query);
-      }
-    }
-
-    function filterCertificates(q) {
-      return state.certificates.filter(c => {
-        const idMatch = c.id && String(c.id).trim().toLowerCase() === q;
-        const numMatch = c.numCode && String(c.numCode).trim().toLowerCase() === q;
-        const certNoMatch = c.certNo && c.certNo.toLowerCase().includes(q);
-        const nameMatch = c.name && c.name.toLowerCase().includes(q);
-        const schoolMatch = c.school && c.school.toLowerCase().includes(q);
-        return idMatch || numMatch || certNoMatch || nameMatch || schoolMatch;
-      });
     }
 
     function renderPublicSearchResults(matches, query) {
@@ -1595,12 +1563,13 @@
     }
 
     function selectCertFromSearchResult(id) {
-      const found = state.certificates.find(c => c.id === id);
-      if (found) {
-        state.activeCert = found;
-        document.getElementById('publicSearchResults').classList.add('hidden');
-        switchView('public_verification');
-      }
+      db.collection("certificates").doc(id).get().then(doc => {
+        if (doc.exists) {
+          state.activeCert = doc.data();
+          document.getElementById('publicSearchResults').classList.add('hidden');
+          switchView('public_verification');
+        }
+      });
     }
 
     function renderPublicVerificationPage() {
@@ -1766,11 +1735,9 @@
         numCode, name, school, category, certNo
       };
 
-      state.certificates.push(newRecord);
-      await saveCertificatesToStorage();
+      await db.collection("certificates").doc(newRecord.id).set(newRecord, { merge: true });
       closeAddEditModal();
-      renderAdminTable();
-      showToast("Berhasil Disimpan! ✨", `Sertifikat an. ${name} telah disimpan.`, "success");
+      showToast("Tersimpan Realtime! ✨", `Sertifikat an. ${name} tersimpan di Firebase Server.`, "success");
     }
 
     function confirmSingleDelete(id) {
@@ -1779,9 +1746,7 @@
         message: "Apakah Anda yakin ingin menghapus data sertifikat ini?",
         onProceed: async () => {
           await db.collection("certificates").doc(id).delete();
-          state.certificates = state.certificates.filter(c => c.id !== id);
-          renderAdminTable();
-          showToast("Dihapus 🗑️", "Data sertifikat telah dihapus dari server.", "info");
+          showToast("Dihapus 🗑️", "Data sertifikat berhasil terhapus secara realtime.", "info");
         }
       });
     }
@@ -1835,7 +1800,6 @@
       state.confirmCallback = null;
     }
 
-    // FITUR 5: NOTIFIKASI POP-UP POSITIF MODERN BER-IKON
     function showToast(title = "Pemberitahuan", message = "", type = "info") {
       const container = document.getElementById('toastContainer');
       const toast = document.createElement('div');
