@@ -30,8 +30,8 @@
         extend: {
           colors: {
             brand: {
-              red: '#fa4622',
-              deepred: '#ea2e0c',
+              red: 'var(--brand-theme-color, #fa4622)',
+              deepred: 'var(--brand-theme-dark, #d01f00)',
               darkred: '#d01f00',
               gold: '#d97706',
               navy: '#0f172a'
@@ -47,6 +47,14 @@
   </script>
 
   <style>
+    :root {
+      --brand-theme-color: #fa4622;
+      --brand-theme-dark: #d01f00;
+    }
+    .dynamic-theme-bg { background-color: var(--brand-theme-color) !important; }
+    .dynamic-theme-text { color: var(--brand-theme-color) !important; }
+    .dynamic-theme-border { border-color: var(--brand-theme-color) !important; }
+
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #f1f5f9; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -96,46 +104,27 @@
         <span>Cek Keaslian Sertifikat</span>
       </button>
 
-      <!-- KATALOG AGENDA NAV -->
-      <button onclick="goToAgendasGrid()" class="w-full text-left px-3 py-2.5 rounded-lg bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 flex items-center space-x-2 font-bold transition">
+      <!-- KATALOG AGENDA NAV (HANYA MUNCUL JIKA ADMIN LOGGED IN) -->
+      <button id="sidebarAgendasBtn" onclick="goToAgendasGrid()" class="hidden w-full text-left px-3 py-2.5 rounded-lg bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 flex items-center space-x-2 font-bold transition">
         <i class="fa-solid fa-folder-tree text-amber-400"></i>
         <span>Katalog Agenda / Kelola Admin</span>
       </button>
 
       <div class="border-t border-white/10 my-2"></div>
 
-      <!-- DATA SERTIFIKAT MENU & SUBMENU -->
+      <!-- DATA SERTIFIKAT MENU & SUBMENU DYNAMIC -->
       <div id="sidebarAgendaScopeMenus" class="space-y-3">
         <div class="space-y-1">
           <button onclick="toggleDataSertifikatSubmenu()" class="w-full px-3 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-between transition text-left">
             <span class="flex items-center space-x-2 font-bold text-amber-200">
-              <i class="fa-solid fa-table-list text-brand-red"></i>
+              <i class="fa-solid fa-table-list text-red-400"></i>
               <span>Data Sertifikat Agenda</span>
             </span>
             <i id="dataSubmenuArrow" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200"></i>
           </button>
 
           <div id="dataSertifikatSubmenu" class="pl-3 space-y-1 pt-1">
-            <button onclick="sidebarActionFilter('ALL')" class="w-full text-left px-3 py-1.5 rounded hover:bg-white/10 text-gray-300 hover:text-white flex items-center space-x-2 transition">
-              <i class="fa-solid fa-list-ul text-[10px] text-gray-400"></i>
-              <span>Semua Data</span>
-            </button>
-            <button onclick="sidebarActionFilter('Peserta')" class="w-full text-left px-3 py-1.5 rounded hover:bg-white/10 text-gray-300 hover:text-white flex items-center space-x-2 transition">
-              <i class="fa-solid fa-user-graduate text-[10px] text-blue-400"></i>
-              <span>Peserta</span>
-            </button>
-            <button onclick="sidebarActionFilter('Bindamping')" class="w-full text-left px-3 py-1.5 rounded hover:bg-white/10 text-gray-300 hover:text-white flex items-center space-x-2 transition">
-              <i class="fa-solid fa-user-tie text-[10px] text-purple-400"></i>
-              <span>Bindamping</span>
-            </button>
-            <button onclick="sidebarActionFilter('Panitia')" class="w-full text-left px-3 py-1.5 rounded hover:bg-white/10 text-gray-300 hover:text-white flex items-center space-x-2 transition">
-              <i class="fa-solid fa-user-gear text-[10px] text-amber-400"></i>
-              <span>Panitia</span>
-            </button>
-            <button onclick="sidebarActionFilter('Petugas Upacara')" class="w-full text-left px-3 py-1.5 rounded hover:bg-white/10 text-gray-300 hover:text-white flex items-center space-x-2 transition">
-              <i class="fa-solid fa-user-shield text-[10px] text-emerald-400"></i>
-              <span>Petugas Upacara</span>
-            </button>
+            <div id="sidebarDynamicCategoriesContainer" class="space-y-1"></div>
             
             <div class="border-t border-white/10 my-1.5"></div>
             
@@ -143,7 +132,7 @@
               <i class="fa-solid fa-file-export text-xs"></i>
               <span>Export Excel</span>
             </button>
-            <button onclick="sidebarActionAdd()" class="w-full text-left px-3 py-1.5 rounded bg-brand-red/30 hover:bg-brand-red/50 text-red-300 font-bold flex items-center space-x-2 transition">
+            <button onclick="sidebarActionAdd()" class="w-full text-left px-3 py-1.5 rounded bg-white/10 hover:bg-white/20 text-red-300 font-bold flex items-center space-x-2 transition">
               <i class="fa-solid fa-plus text-xs"></i>
               <span>Tambah Data</span>
             </button>
@@ -162,7 +151,7 @@
       </div>
 
       <div class="border-t border-white/10 my-2 pt-2">
-        <button id="sidebarAuthBtn" onclick="handleAdminAuthClick(); closeSidebar();" class="w-full text-left px-3 py-2 rounded-lg bg-brand-red/20 text-red-300 hover:bg-brand-red/40 transition flex items-center space-x-2 font-semibold">
+        <button id="sidebarAuthBtn" onclick="handleAdminAuthClick(); closeSidebar();" class="w-full text-left px-3 py-2 rounded-lg bg-white/10 text-red-300 hover:bg-white/20 transition flex items-center space-x-2 font-semibold">
           <i id="sidebarAuthIcon" class="fa-solid fa-lock"></i>
           <span id="sidebarAuthText">Login Admin</span>
         </button>
@@ -182,7 +171,7 @@
         </button>
 
         <div class="flex items-center space-x-2.5 cursor-pointer" onclick="switchView('public_search')">
-          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-tr from-brand-red to-amber-500 flex items-center justify-center text-white shadow-sm font-bold border border-white/20 shrink-0">
+          <div id="headerLogoBg" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-tr from-red-500 to-amber-500 flex items-center justify-center text-white shadow-sm font-bold border border-white/20 shrink-0 dynamic-theme-bg">
             <i class="fa-solid fa-tent text-base sm:text-lg"></i>
           </div>
           <div>
@@ -199,12 +188,13 @@
           <span>Cek Sertifikat</span>
         </button>
 
-        <button onclick="goToAgendasGrid()" class="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs sm:text-sm font-bold transition flex items-center space-x-1.5">
+        <!-- TOMBOL DAFTAR AGENDA (HANYA MUNCUL JIKA ADMIN LOGGED IN) -->
+        <button id="navAgendasBtn" onclick="goToAgendasGrid()" class="hidden px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs sm:text-sm font-bold transition flex items-center space-x-1.5">
           <i class="fa-solid fa-folder-tree"></i>
           <span>Daftar Agenda</span>
         </button>
 
-        <button id="btnAdminAuth" onclick="handleAdminAuthClick()" class="px-3 py-1.5 rounded-lg bg-brand-red hover:bg-brand-darkred text-white text-xs sm:text-sm font-semibold transition flex items-center space-x-1.5 shadow">
+        <button id="btnAdminAuth" onclick="handleAdminAuthClick()" class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-semibold transition flex items-center space-x-1.5 shadow dynamic-theme-bg">
           <i id="btnAdminIcon" class="fa-solid fa-lock"></i>
           <span id="btnAdminText">Login Admin</span>
         </button>
@@ -216,9 +206,9 @@
   <main class="flex-grow flex flex-col">
 
     <!-- VIEW 1: PUBLIC SEARCH PAGE (DEFAULT UTAMA LANDING PAGE) -->
-    <section id="viewPublicSearch" class="flex-grow bg-gradient-to-b from-[#fa4622] via-[#f03212] to-[#d82103] py-8 sm:py-12 px-4 flex flex-col items-center justify-center text-white">
+    <section id="viewPublicSearch" class="flex-grow bg-gradient-to-b from-red-600 via-red-700 to-red-800 py-8 sm:py-12 px-4 flex flex-col items-center justify-center text-white transition-colors duration-500">
       <div class="max-w-xl w-full text-center space-y-6">
-        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full mx-auto flex items-center justify-center text-brand-red text-2xl sm:text-3xl shadow-xl">
+        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full mx-auto flex items-center justify-center text-red-600 text-2xl sm:text-3xl shadow-xl dynamic-theme-text">
           <i class="fa-solid fa-certificate"></i>
         </div>
         <div>
@@ -240,20 +230,20 @@
       </div>
     </section>
 
-    <!-- VIEW 2: AGENDAS GRID CATALOG (KELOLA / PILIH AGENDA) -->
+    <!-- VIEW 2: AGENDAS GRID CATALOG (KELOLA / PILIH AGENDA - HANYA ADMIN) -->
     <section id="viewAgendasGrid" class="hidden flex-grow bg-gray-50 py-8 px-4">
       <div class="max-w-7xl mx-auto space-y-6">
         
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
           <div>
             <h2 class="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight flex items-center space-x-2">
-              <i class="fa-solid fa-calendar-days text-brand-red"></i>
+              <i class="fa-solid fa-calendar-days text-red-600 dynamic-theme-text"></i>
               <span>Katalog Agenda Kegiatan SAKO SIT</span>
             </h2>
             <p class="text-xs sm:text-sm text-gray-500 mt-1">Klik pada salah satu agenda di bawah ini untuk mengelola data sertifikat dan Admin Panel.</p>
           </div>
 
-          <button id="btnAddNewAgenda" onclick="openAddAgendaModal()" class="hidden px-4 py-2.5 bg-brand-red hover:bg-brand-darkred text-white font-bold rounded-xl text-xs sm:text-sm shadow transition flex items-center space-x-2 shrink-0">
+          <button id="btnAddNewAgenda" onclick="openAddAgendaModal()" class="hidden px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs sm:text-sm shadow transition flex items-center space-x-2 shrink-0 dynamic-theme-bg">
             <i class="fa-solid fa-circle-plus"></i>
             <span>Tambah Agenda Baru</span>
           </button>
@@ -265,10 +255,10 @@
     </section>
 
     <!-- VIEW 3: PUBLIC VERIFICATION PAGE -->
-    <section id="viewPublicVerification" class="hidden flex-grow bg-gradient-to-b from-[#fa4622] via-[#f03212] to-[#d82103] py-10 px-4 flex flex-col items-center justify-center">
+    <section id="viewPublicVerification" class="hidden flex-grow bg-gradient-to-b from-red-600 via-red-700 to-red-800 py-10 px-4 flex flex-col items-center justify-center transition-colors duration-500">
       <div class="mb-6 text-center">
         <div class="w-24 h-24 sm:w-28 sm:h-28 bg-white rounded-full mx-auto flex items-center justify-center p-2 shadow-xl border-4 border-white/30">
-          <div class="w-full h-full rounded-full bg-gradient-to-tr from-amber-500 via-brand-red to-red-700 flex flex-col items-center justify-center text-white text-center p-1 border border-amber-300">
+          <div class="w-full h-full rounded-full bg-gradient-to-tr from-amber-500 to-red-700 flex flex-col items-center justify-center text-white text-center p-1 border border-amber-300 dynamic-theme-bg">
             <i class="fa-solid fa-award text-2xl sm:text-3xl mb-0.5 text-yellow-200"></i>
             <span class="text-[8px] sm:text-[9px] font-extrabold uppercase tracking-tighter leading-none" id="verificationBadgeTitle">KEMBARANAS III</span>
             <span class="text-[6px] sm:text-[7px] font-semibold text-amber-100 tracking-wider">SAKO SIT 2026</span>
@@ -288,7 +278,7 @@
       </div>
 
       <div class="mt-6 flex flex-wrap justify-center gap-3">
-        <button onclick="downloadActivePublicCert()" class="px-4 py-2 bg-white text-brand-darkred hover:bg-gray-100 rounded-lg text-xs sm:text-sm font-bold shadow transition flex items-center space-x-2">
+        <button onclick="downloadActivePublicCert()" class="px-4 py-2 bg-white text-red-700 hover:bg-gray-100 rounded-lg text-xs sm:text-sm font-bold shadow transition flex items-center space-x-2">
           <i class="fa-solid fa-download"></i>
           <span>Unduh Sertifikat (PNG)</span>
         </button>
@@ -304,7 +294,7 @@
       <div class="bg-white border-b border-gray-200 sticky top-16 z-30 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-2.5">
           <div class="flex items-center space-x-2">
-            <span class="px-2.5 py-1 bg-brand-red/10 text-brand-red rounded-md text-xs font-bold uppercase tracking-wider">
+            <span class="px-2.5 py-1 bg-red-100 text-red-700 rounded-md text-xs font-bold uppercase tracking-wider">
               <i class="fa-solid fa-shield-halved mr-1"></i> Admin Panel
             </span>
             <span class="text-xs text-gray-500 hidden sm:inline">| Agenda: <strong id="adminDashboardAgendaName" class="text-gray-800">Kembaranas III</strong></span>
@@ -335,33 +325,22 @@
               <div class="relative w-full md:w-80">
                 <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
                 <input type="text" id="adminSearchInput" oninput="onSearchChange()" placeholder="Cari Nama, Sekolah, No Sertifikat..."
-                       class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-red">
+                       class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-red-500">
               </div>
 
-              <div class="flex items-center space-x-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
-                <button onclick="setCategoryFilter('ALL')" id="filterAll" class="cat-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-brand-navy text-white shadow-sm shrink-0">
-                  Semua (<span id="countAll">0</span>)
-                </button>
-                <button onclick="setCategoryFilter('Peserta')" id="filterPeserta" class="cat-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-600 hover:bg-gray-100 border border-gray-200 shrink-0">
-                  Peserta (<span id="countPeserta">0</span>)
-                </button>
-                <button onclick="setCategoryFilter('Bindamping')" id="filterBindamping" class="cat-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-600 hover:bg-gray-100 border border-gray-200 shrink-0">
-                  Bindamping (<span id="countBindamping">0</span>)
-                </button>
-                <button onclick="setCategoryFilter('Panitia')" id="filterPanitia" class="cat-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-600 hover:bg-gray-100 border border-gray-200 shrink-0">
-                  Panitia (<span id="countPanitia">0</span>)
-                </button>
-                <button onclick="setCategoryFilter('Petugas Upacara')" id="filterPetugas" class="cat-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-600 hover:bg-gray-100 border border-gray-200 shrink-0">
-                  Petugas Upacara (<span id="countPetugas">0</span>)
-                </button>
-              </div>
+              <!-- DYNAMIC CATEGORY FILTER BUTTONS & ADD CATEGORY BTN -->
+              <div class="flex items-center space-x-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0" id="adminCategoryFiltersContainer"></div>
 
               <div class="flex items-center space-x-2 w-full md:w-auto justify-end">
+                <button onclick="promptAddNewCategory()" class="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-lg transition flex items-center space-x-1.5 shadow-sm" title="Tambah Kategori Kustom Baru">
+                  <i class="fa-solid fa-tags"></i>
+                  <span>+ Kategori</span>
+                </button>
                 <button onclick="exportDataToExcel()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg transition flex items-center space-x-1.5 shadow-sm">
                   <i class="fa-solid fa-file-export"></i>
                   <span>Export Excel</span>
                 </button>
-                <button onclick="openAddModal()" class="px-3.5 py-2 bg-brand-red hover:bg-brand-darkred text-white text-xs font-bold rounded-lg transition flex items-center space-x-1.5 shadow">
+                <button onclick="openAddModal()" class="px-3.5 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg transition flex items-center space-x-1.5 shadow dynamic-theme-bg">
                   <i class="fa-solid fa-plus"></i>
                   <span>Tambah Data</span>
                 </button>
@@ -394,7 +373,7 @@
               <div class="flex items-center space-x-3">
                 <span class="flex items-center space-x-1.5">
                   <span class="font-medium">Tampilkan</span>
-                  <select id="pageSizeSelect" onchange="changePageSize(this.value)" class="px-2 py-1 border border-gray-300 rounded-md font-bold focus:outline-none focus:ring-2 focus:ring-brand-red bg-white text-gray-800">
+                  <select id="pageSizeSelect" onchange="changePageSize(this.value)" class="px-2 py-1 border border-gray-300 rounded-md font-bold focus:outline-none focus:ring-2 focus:ring-red-500 bg-white text-gray-800">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
@@ -414,7 +393,7 @@
                 <thead class="bg-gray-100 border-b border-gray-200 text-gray-600 uppercase font-semibold text-[11px] tracking-wider">
                   <tr>
                     <th class="py-3.5 px-3 text-center w-10">
-                      <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" class="rounded border-gray-300 text-brand-red focus:ring-brand-red w-4 h-4 cursor-pointer">
+                      <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" class="rounded border-gray-300 text-red-600 focus:ring-red-500 w-4 h-4 cursor-pointer">
                     </th>
                     <th class="py-3.5 px-3 w-12 text-center">No</th>
                     <th class="py-3.5 px-4">Nomor Sertifikat</th>
@@ -449,7 +428,7 @@
               </button>
             </div>
 
-            <div class="border-2 border-dashed border-gray-300 hover:border-brand-red rounded-xl p-8 text-center bg-gray-50 hover:bg-red-50/30 transition cursor-pointer" onclick="document.getElementById('excelFileInput').click()">
+            <div class="border-2 border-dashed border-gray-300 hover:border-red-500 rounded-xl p-8 text-center bg-gray-50 hover:bg-red-50/30 transition cursor-pointer" onclick="document.getElementById('excelFileInput').click()">
               <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileUpload(event)">
               <div class="space-y-2">
                 <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full mx-auto flex items-center justify-center text-2xl">
@@ -463,7 +442,7 @@
             <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
               <div class="space-y-0.5">
                 <span class="font-bold text-gray-800 flex items-center space-x-1.5">
-                  <i class="fa-solid fa-sliders text-brand-red"></i>
+                  <i class="fa-solid fa-sliders text-red-600"></i>
                   <span>Mode Import Data:</span>
                 </span>
                 <p class="text-gray-500 text-[11px]">Mode Append akan melanjutkan nomor urut dari data terakhir tanpa menghapus data yang ada.</p>
@@ -472,12 +451,7 @@
               <div class="flex flex-wrap items-center gap-3">
                 <div class="flex items-center space-x-1.5 bg-white p-1.5 rounded-lg border border-gray-300">
                   <label class="text-gray-600 font-semibold text-[11px]">Kategori Default:</label>
-                  <select id="importDefaultCategory" class="font-bold text-gray-800 text-xs focus:outline-none">
-                    <option value="Peserta">Peserta</option>
-                    <option value="Bindamping">Bindamping</option>
-                    <option value="Panitia">Panitia</option>
-                    <option value="Petugas Upacara">Petugas Upacara</option>
-                  </select>
+                  <select id="importDefaultCategory" class="font-bold text-gray-800 text-xs focus:outline-none"></select>
                 </div>
 
                 <div class="flex items-center space-x-3 bg-white p-2 rounded-lg border border-gray-300 shadow-sm">
@@ -500,7 +474,7 @@
                   <h4 class="text-sm font-bold text-gray-800">Preview Data Excel (<span id="importPreviewCount">0</span> baris)</h4>
                   <div id="importModeInfoBadge"></div>
                 </div>
-                <button onclick="processBatchImport()" class="px-4 py-2 bg-brand-red hover:bg-brand-darkred text-white text-xs font-bold rounded-lg shadow transition flex items-center space-x-2">
+                <button onclick="processBatchImport()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg shadow transition flex items-center space-x-2 dynamic-theme-bg">
                   <i class="fa-solid fa-cloud-arrow-up"></i>
                   <span>Proses & Upload ke Firebase</span>
                 </button>
@@ -532,22 +506,17 @@
             <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 space-y-4 lg:col-span-1 max-h-[85vh] overflow-y-auto">
               <div class="border-b border-gray-200 pb-3 flex items-center justify-between">
                 <h3 class="text-sm font-bold text-gray-900">Pengaturan Layout Canvas</h3>
-                <span id="canvasCategoryBadge" class="text-[10px] bg-brand-red text-white px-2 py-0.5 rounded font-bold uppercase">Peserta</span>
+                <span id="canvasCategoryBadge" class="text-[10px] bg-red-600 text-white px-2 py-0.5 rounded font-bold uppercase dynamic-theme-bg">Peserta</span>
               </div>
 
               <div>
                 <label class="block text-xs font-semibold text-gray-700 mb-1">Pilih Kategori Sertifikat:</label>
-                <select id="editorCategorySelect" onchange="onEditorCategoryChange()" class="w-full p-2 border border-gray-300 rounded-lg text-xs font-bold focus:ring-2 focus:ring-brand-red bg-amber-50">
-                  <option value="Peserta">Peserta</option>
-                  <option value="Bindamping">Bindamping</option>
-                  <option value="Panitia">Panitia</option>
-                  <option value="Petugas Upacara">Petugas Upacara</option>
-                </select>
+                <select id="editorCategorySelect" onchange="onEditorCategoryChange()" class="w-full p-2 border border-gray-300 rounded-lg text-xs font-bold focus:ring-2 focus:ring-red-500 bg-amber-50"></select>
               </div>
 
               <div>
                 <label class="block text-xs font-semibold text-gray-700 mb-1">Upload Background Custom:</label>
-                <input type="file" id="bgImageUpload" accept="image/*" onchange="handleBgImageUpload(event)" class="w-full text-xs text-gray-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-brand-red/10 file:text-brand-red">
+                <input type="file" id="bgImageUpload" accept="image/*" onchange="handleBgImageUpload(event)" class="w-full text-xs text-gray-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-red-50 file:text-red-600">
               </div>
 
               <div id="bgRemoveContainer" class="hidden">
@@ -561,13 +530,13 @@
 
               <div class="space-y-3 text-xs">
                 <p class="font-bold text-gray-800 flex items-center space-x-1">
-                  <i class="fa-solid fa-user text-brand-red"></i>
+                  <i class="fa-solid fa-user text-red-600 dynamic-theme-text"></i>
                   <span>Posisi & Ukuran Nama Lengkap:</span>
                 </p>
                 <div class="grid grid-cols-2 gap-2">
                   <div>
                     <label class="text-[11px] text-gray-500">Posisi Y:</label>
-                    <input type="range" id="posYName" min="100" max="750" value="380" oninput="onLayoutInputChange()" class="w-full accent-brand-red">
+                    <input type="range" id="posYName" min="100" max="750" value="380" oninput="onLayoutInputChange()" class="w-full accent-red-600">
                   </div>
                   <div>
                     <label class="text-[11px] text-gray-500">Ukuran Font:</label>
@@ -576,13 +545,13 @@
                 </div>
 
                 <p class="font-bold text-gray-800 pt-2 flex items-center space-x-1">
-                  <i class="fa-solid fa-school text-brand-red"></i>
+                  <i class="fa-solid fa-school text-red-600 dynamic-theme-text"></i>
                   <span>Posisi & Ukuran Asal Sekolah:</span>
                 </p>
                 <div class="grid grid-cols-2 gap-2">
                   <div>
                     <label class="text-[11px] text-gray-500">Posisi Y:</label>
-                    <input type="range" id="posYSchool" min="100" max="750" value="450" oninput="onLayoutInputChange()" class="w-full accent-brand-red">
+                    <input type="range" id="posYSchool" min="100" max="750" value="450" oninput="onLayoutInputChange()" class="w-full accent-red-600">
                   </div>
                   <div>
                     <label class="text-[11px] text-gray-500">Ukuran Font:</label>
@@ -593,11 +562,11 @@
                 <div class="pt-2 border-t border-gray-100">
                   <div class="flex items-center justify-between mb-1.5">
                     <p class="font-bold text-gray-800 flex items-center space-x-1">
-                      <i class="fa-solid fa-hashtag text-brand-red"></i>
+                      <i class="fa-solid fa-hashtag text-red-600 dynamic-theme-text"></i>
                       <span>Posisi & Style Nomor Sertifikat:</span>
                     </p>
                     <label class="flex items-center space-x-1 cursor-pointer">
-                      <input type="checkbox" id="showCertNo" checked onchange="onLayoutInputChange()" class="rounded text-brand-red focus:ring-brand-red">
+                      <input type="checkbox" id="showCertNo" checked onchange="onLayoutInputChange()" class="rounded text-red-600 focus:ring-red-500">
                       <span class="text-[10px] font-semibold text-gray-600">Tampilkan</span>
                     </label>
                   </div>
@@ -606,11 +575,11 @@
                     <div class="grid grid-cols-2 gap-2">
                       <div>
                         <label class="text-[10px] text-gray-500">Posisi X:</label>
-                        <input type="range" id="posXCertNo" min="50" max="1150" value="600" oninput="onLayoutInputChange()" class="w-full accent-brand-red">
+                        <input type="range" id="posXCertNo" min="50" max="1150" value="600" oninput="onLayoutInputChange()" class="w-full accent-red-600">
                       </div>
                       <div>
                         <label class="text-[10px] text-gray-500">Posisi Y:</label>
-                        <input type="range" id="posYCertNo" min="30" max="800" value="330" oninput="onLayoutInputChange()" class="w-full accent-brand-red">
+                        <input type="range" id="posYCertNo" min="30" max="800" value="330" oninput="onLayoutInputChange()" class="w-full accent-red-600">
                       </div>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
@@ -627,17 +596,17 @@
                 </div>
 
                 <p class="font-bold text-gray-800 pt-2 flex items-center space-x-1">
-                  <i class="fa-solid fa-qrcode text-brand-red"></i>
+                  <i class="fa-solid fa-qrcode text-red-600 dynamic-theme-text"></i>
                   <span>Posisi QR Code Barcode:</span>
                 </p>
                 <div class="grid grid-cols-2 gap-2">
                   <div>
                     <label class="text-[11px] text-gray-500">Posisi X:</label>
-                    <input type="range" id="posXQR" min="50" max="1100" value="950" oninput="onLayoutInputChange()" class="w-full accent-brand-red">
+                    <input type="range" id="posXQR" min="50" max="1100" value="950" oninput="onLayoutInputChange()" class="w-full accent-red-600">
                   </div>
                   <div>
                     <label class="text-[11px] text-gray-500">Posisi Y:</label>
-                    <input type="range" id="posYQR" min="50" max="750" value="650" oninput="onLayoutInputChange()" class="w-full accent-brand-red">
+                    <input type="range" id="posYQR" min="50" max="750" value="650" oninput="onLayoutInputChange()" class="w-full accent-red-600">
                   </div>
                 </div>
               </div>
@@ -663,7 +632,7 @@
             <div class="bg-white p-4 sm:p-5 rounded-xl shadow-sm border border-gray-200 lg:col-span-2 flex flex-col items-center justify-start w-full">
               <div class="flex items-center justify-between w-full mb-3">
                 <span class="text-xs font-bold text-gray-800 flex items-center space-x-1.5">
-                  <i class="fa-solid fa-eye text-brand-red"></i>
+                  <i class="fa-solid fa-eye text-red-600 dynamic-theme-text"></i>
                   <span>Preview Sertifikat Real-Time (1200x850 px)</span>
                 </span>
                 <span class="text-[10px] text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded font-semibold">
@@ -685,10 +654,10 @@
   </main>
 
   <footer class="bg-white border-t border-gray-200 py-4 text-center text-xs text-gray-500">
-    <p>© 2026 Perkemahan Ukhuwah Nasional (KEMBARANAS) III - SAKO SIT Indonesia</p>
+    <p>© 2026 SAKO SIT Indonesia - Wilayah Lampung</p>
   </footer>
 
-  <!-- MODAL ADD/EDIT AGENDA BARU -->
+  <!-- MODAL ADD/EDIT AGENDA BARU (DENGAN TEMA WARNA / COLOR PICKER) -->
   <div id="addAgendaModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 space-y-4 relative modal-scale-up">
       <button onclick="closeAddAgendaModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
@@ -696,7 +665,7 @@
       </button>
 
       <h3 class="text-base font-bold text-gray-900 border-b pb-2 flex items-center space-x-2">
-        <i class="fa-solid fa-calendar-plus text-brand-red"></i>
+        <i class="fa-solid fa-calendar-plus text-red-600 dynamic-theme-text"></i>
         <span>Tambah Agenda Kegiatan Baru</span>
       </h3>
 
@@ -723,13 +692,21 @@
         </div>
 
         <div>
+          <label class="block font-semibold text-gray-700 mb-1">Warna Tema Agenda (Kustom Warna):</label>
+          <div class="flex items-center space-x-3">
+            <input type="color" id="agendaFormThemeColor" value="#fa4622" class="w-12 h-9 p-0.5 border rounded cursor-pointer">
+            <span class="text-xs text-gray-500">Pilih warna khas untuk agenda ini (Header, Tombol, Aksen).</span>
+          </div>
+        </div>
+
+        <div>
           <label class="block font-semibold text-gray-700 mb-1">URL Gambar Sampul / Banner (Opsional):</label>
           <input type="url" id="agendaFormBanner" placeholder="https://..." class="w-full p-2 border rounded-lg">
         </div>
 
         <div class="flex justify-end space-x-2 pt-2">
           <button type="button" onclick="closeAddAgendaModal()" class="px-4 py-2 border rounded-lg text-gray-700 font-semibold text-xs">Batal</button>
-          <button type="submit" class="px-5 py-2 bg-brand-red hover:bg-brand-darkred text-white font-bold rounded-lg text-xs shadow">Simpan Agenda</button>
+          <button type="submit" class="px-5 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg text-xs shadow dynamic-theme-bg">Simpan Agenda</button>
         </div>
       </form>
     </div>
@@ -743,7 +720,7 @@
       </button>
 
       <div class="text-center space-y-1">
-        <div class="w-14 h-14 bg-brand-red/10 text-brand-red rounded-full mx-auto flex items-center justify-center text-xl">
+        <div class="w-14 h-14 bg-red-100 text-red-600 rounded-full mx-auto flex items-center justify-center text-xl dynamic-theme-text">
           <i class="fa-solid fa-user-shield"></i>
         </div>
         <h3 class="text-xl font-extrabold text-gray-900">Login Admin Sertifikat</h3>
@@ -753,14 +730,14 @@
       <form onsubmit="handleLoginSubmit(event)" class="space-y-4 text-xs sm:text-sm">
         <div>
           <label class="block font-semibold text-gray-700 mb-1">Username Admin</label>
-          <input type="text" id="loginUsername" placeholder="Masukkan Username" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-red focus:outline-none">
+          <input type="text" id="loginUsername" placeholder="Masukkan Username" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none">
         </div>
         <div>
           <label class="block font-semibold text-gray-700 mb-1">Password</label>
-          <input type="password" id="loginPassword" placeholder="Masukkan Password" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-red focus:outline-none">
+          <input type="password" id="loginPassword" placeholder="Masukkan Password" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none">
         </div>
 
-        <button type="submit" class="w-full py-2.5 bg-brand-red hover:bg-brand-darkred text-white font-bold rounded-lg shadow transition text-sm">
+        <button type="submit" class="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg shadow transition text-sm dynamic-theme-bg">
           Masuk Ke Dashboard Admin
         </button>
       </form>
@@ -786,12 +763,7 @@
           </div>
           <div>
             <label class="block font-semibold text-gray-700 mb-1">Kategori:</label>
-            <select id="formCategory" class="w-full p-2 border rounded-lg">
-              <option value="Peserta">Peserta</option>
-              <option value="Bindamping">Bindamping</option>
-              <option value="Panitia">Panitia</option>
-              <option value="Petugas Upacara">Petugas Upacara</option>
-            </select>
+            <select id="formCategory" class="w-full p-2 border rounded-lg"></select>
           </div>
         </div>
 
@@ -812,7 +784,7 @@
 
         <div class="flex justify-end space-x-2 pt-2">
           <button type="button" onclick="closeAddEditModal()" class="px-4 py-2 border rounded-lg text-gray-700 font-semibold text-xs">Batal</button>
-          <button type="submit" class="px-5 py-2 bg-brand-red hover:bg-brand-darkred text-white font-bold rounded-lg text-xs shadow">Simpan Data</button>
+          <button type="submit" class="px-5 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg text-xs shadow dynamic-theme-bg">Simpan Data</button>
         </div>
       </form>
     </div>
@@ -859,15 +831,12 @@
     const db = firebase.firestore();
 
     const DEFAULT_AGENDAS = [
-      { id: "kembaranas3", title: "Perkemahan Ukhuwah Nasional (KEMBARANAS) III", date: "31 Oktober 2026", location: "Bandar Lampung", bannerUrl: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?w=600&auto=format&fit=crop&q=60" },
-      { id: "muswil2026", title: "Musyawarah Wilayah (MUSWIL) SAKO SIT Lampung", date: "15 November 2026", location: "Bandar Lampung", bannerUrl: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&auto=format&fit=crop&q=60" }
+      { id: "kembaranas3", title: "Perkemahan Ukhuwah Nasional (KEMBARANAS) III", date: "31 Oktober 2026", location: "Bandar Lampung", themeColor: "#fa4622", categories: ["Peserta", "Bindamping", "Panitia", "Petugas Upacara"], bannerUrl: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?w=600&auto=format&fit=crop&q=60" },
+      { id: "muswil2026", title: "Musyawarah Wilayah (MUSWIL) SAKO SIT Lampung", date: "15 November 2026", location: "Bandar Lampung", themeColor: "#059669", categories: ["Peserta", "Panitia", "Tamu VIP"], bannerUrl: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&auto=format&fit=crop&q=60" }
     ];
 
     const DEFAULT_LAYOUTS = {
-      'Peserta': { posYName: 380, fontSizeName: 42, posYSchool: 450, fontSizeSchool: 24, showCertNo: true, posXCertNo: 600, posYCertNo: 330, fontSizeCertNo: 18, colorCertNo: '#334155', posXQR: 950, posYQR: 650, bgImage: null },
-      'Bindamping': { posYName: 380, fontSizeName: 42, posYSchool: 450, fontSizeSchool: 24, showCertNo: true, posXCertNo: 600, posYCertNo: 330, fontSizeCertNo: 18, colorCertNo: '#334155', posXQR: 950, posYQR: 650, bgImage: null },
-      'Panitia': { posYName: 380, fontSizeName: 42, posYSchool: 450, fontSizeSchool: 24, showCertNo: true, posXCertNo: 600, posYCertNo: 330, fontSizeCertNo: 18, colorCertNo: '#334155', posXQR: 950, posYQR: 650, bgImage: null },
-      'Petugas Upacara': { posYName: 380, fontSizeName: 42, posYSchool: 450, fontSizeSchool: 24, showCertNo: true, posXCertNo: 600, posYCertNo: 330, fontSizeCertNo: 18, colorCertNo: '#334155', posXQR: 950, posYQR: 650, bgImage: null }
+      'Peserta': { posYName: 380, fontSizeName: 42, posYSchool: 450, fontSizeSchool: 24, showCertNo: true, posXCertNo: 600, posYCertNo: 330, fontSizeCertNo: 18, colorCertNo: '#334155', posXQR: 950, posYQR: 650, bgImage: null }
     };
 
     let state = {
@@ -890,12 +859,13 @@
 
     function normalizeCategory(cat) {
       if (!cat) return 'Peserta';
-      const s = String(cat).trim().toLowerCase();
-      if (s.includes('petugas')) return 'Petugas Upacara';
-      if (s.includes('bin') || s.includes('pembina') || s.includes('pendamping')) return 'Bindamping';
-      if (s.includes('panitia')) return 'Panitia';
-      if (s.includes('peserta')) return 'Peserta';
-      return 'Peserta';
+      return String(cat).trim();
+    }
+
+    // UPDATE TEMA WARNA SECARA DINAMIS
+    function applyAgendaThemeColor(hexColor) {
+      const color = hexColor || '#fa4622';
+      document.documentElement.style.setProperty('--brand-theme-color', color);
     }
 
     function toggleSidebar() {
@@ -936,7 +906,7 @@
 
     function sidebarActionFilter(cat) {
       closeSidebar();
-      if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu dari Katalog!", "warning"); goToAgendasGrid(); return; }
+      if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu!", "warning"); goToAgendasGrid(); return; }
       if (!state.isAdminLoggedIn) { openLoginModal(); return; }
       switchView('admin');
       switchAdminTab('data');
@@ -945,7 +915,7 @@
 
     function sidebarActionExport() {
       closeSidebar();
-      if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu dari Katalog!", "warning"); goToAgendasGrid(); return; }
+      if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu!", "warning"); goToAgendasGrid(); return; }
       if (!state.isAdminLoggedIn) { openLoginModal(); return; }
       switchView('admin');
       switchAdminTab('data');
@@ -954,7 +924,7 @@
 
     function sidebarActionAdd() {
       closeSidebar();
-      if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu dari Katalog!", "warning"); goToAgendasGrid(); return; }
+      if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu!", "warning"); goToAgendasGrid(); return; }
       if (!state.isAdminLoggedIn) { openLoginModal(); return; }
       switchView('admin');
       switchAdminTab('data');
@@ -966,7 +936,7 @@
       if (target === 'public_search') {
         switchView('public_search');
       } else {
-        if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu dari Katalog!", "warning"); goToAgendasGrid(); return; }
+        if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu!", "warning"); goToAgendasGrid(); return; }
         if (!state.isAdminLoggedIn) { openLoginModal(); return; }
         switchView('admin');
         switchAdminTab(target);
@@ -979,7 +949,21 @@
       await loadAllCertificatesGlobal();
       loadLayoutSettings();
       checkURLParameters();
+      updateNavigationVisibility();
     });
+
+    // PENGATURAN HAK AKSES TOMBOL "DAFTAR AGENDA" (HANYA ADMIN)
+    function updateNavigationVisibility() {
+      const isLogged = state.isAdminLoggedIn;
+      
+      const navBtn = document.getElementById('navAgendasBtn');
+      const sideBtn = document.getElementById('sidebarAgendasBtn');
+      const addBtn = document.getElementById('btnAddNewAgenda');
+
+      if (navBtn) navBtn.classList.toggle('hidden', !isLogged);
+      if (sideBtn) sideBtn.classList.toggle('hidden', !isLogged);
+      if (addBtn) addBtn.classList.toggle('hidden', !isLogged);
+    }
 
     async function loadInitialAgendas() {
       try {
@@ -1011,43 +995,39 @@
 
     function renderAgendasGrid() {
       const container = document.getElementById('agendasGridContainer');
-      const addBtn = document.getElementById('btnAddNewAgenda');
-      if (addBtn) addBtn.classList.toggle('hidden', !state.isAdminLoggedIn);
-
       container.innerHTML = '';
       state.agendas.forEach(ag => {
         const card = document.createElement('div');
         card.className = "bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer group";
-        
-        // KLIK AGENDA LANGSUNG MEMBUKA ADMIN PANEL (PERSYARATAN 1)
         card.onclick = () => selectAgenda(ag.id);
 
         const banner = ag.bannerUrl || "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?w=600&auto=format&fit=crop&q=60";
+        const themeColor = ag.themeColor || '#fa4622';
 
         card.innerHTML = `
           <div class="h-44 w-full bg-gray-200 overflow-hidden relative">
             <img src="${banner}" alt="${ag.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-            <div class="absolute top-3 right-3 bg-brand-navy/80 backdrop-blur-md text-amber-300 px-3 py-1 rounded-full text-[10px] font-bold uppercase">
+            <div class="absolute top-3 right-3 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase shadow" style="background-color: ${themeColor}">
               ${ag.id}
             </div>
           </div>
           <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
             <div class="space-y-2">
-              <h3 class="font-extrabold text-base text-gray-900 group-hover:text-brand-red transition line-clamp-2">${ag.title}</h3>
+              <h3 class="font-extrabold text-base text-gray-900 group-hover:text-red-600 transition line-clamp-2">${ag.title}</h3>
               <p class="text-xs text-gray-500 flex items-center space-x-1.5">
-                <i class="fa-solid fa-calendar text-brand-red"></i>
+                <i class="fa-solid fa-calendar text-red-600"></i>
                 <span>${ag.date || 'SAKO SIT Lampung'}</span>
                 <span class="text-gray-300">|</span>
-                <i class="fa-solid fa-location-dot text-brand-red"></i>
+                <i class="fa-solid fa-location-dot text-red-600"></i>
                 <span>${ag.location || 'Lampung'}</span>
               </p>
             </div>
             <div class="pt-2 border-t border-gray-100 flex items-center justify-between">
               <span class="text-xs font-bold text-gray-700 flex items-center space-x-1">
-                <i class="fa-solid fa-shield-halved text-brand-red"></i>
+                <i class="fa-solid fa-shield-halved text-red-600"></i>
                 <span>Buka Admin Panel Agenda Ini</span>
               </span>
-              <span class="w-8 h-8 rounded-full bg-brand-red/10 group-hover:bg-brand-red text-brand-red group-hover:text-white flex items-center justify-center transition">
+              <span class="w-8 h-8 rounded-full bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white flex items-center justify-center transition">
                 <i class="fa-solid fa-arrow-right text-xs"></i>
               </span>
             </div>
@@ -1057,26 +1037,112 @@
       });
     }
 
-    // MEMILIH AGENDA -> LANGSUNG MEMBUKA DASHBOARD ADMIN
+    // PILIH AGENDA -> LANGSUNG MEMBUKA DASHBOARD ADMIN
     async function selectAgenda(agendaId) {
       const found = state.agendas.find(a => a.id === agendaId);
       if (!found) return;
 
       state.currentAgenda = found;
+      if (!found.categories || found.categories.length === 0) {
+        found.categories = ["Peserta", "Bindamping", "Panitia", "Petugas Upacara"];
+      }
+
+      // SET WARNA TEMA KHAS AGENDA
+      applyAgendaThemeColor(found.themeColor);
+
       document.getElementById('sidebarAgendaTitleText').innerText = found.title;
       document.getElementById('sidebarAgendaScopeMenus').classList.remove('hidden');
       document.getElementById('adminDashboardAgendaName').innerText = found.title;
       document.getElementById('searchScopeAgendaTitle').innerText = found.title;
       document.getElementById('verificationBadgeTitle').innerText = found.id.toUpperCase();
 
-      showToast(`Membuka Admin Panel: ${found.title}`, "info");
+      renderDynamicCategoriesUI();
+
+      showToast(`Membuka Admin Panel Agenda: ${found.title}`, "info");
       await loadCertificatesForAgenda(agendaId);
 
-      // JIKA BELUM LOGIN ADMIN, AUTOMATIS BUKA MODAL LOGIN
       if (!state.isAdminLoggedIn) {
         openLoginModal();
       }
       switchView('admin');
+    }
+
+    // RENDER CATEGORIES DINAMIS DI SIDEBAR, FILTER TABEL, EDITORS & MODAL
+    function renderDynamicCategoriesUI() {
+      const cats = state.currentAgenda && state.currentAgenda.categories ? state.currentAgenda.categories : ["Peserta", "Bindamping", "Panitia", "Petugas Upacara"];
+
+      // 1. Sidebar Category Menu
+      const sideContainer = document.getElementById('sidebarDynamicCategoriesContainer');
+      if (sideContainer) {
+        sideContainer.innerHTML = `
+          <button onclick="sidebarActionFilter('ALL')" class="w-full text-left px-3 py-1.5 rounded hover:bg-white/10 text-gray-300 hover:text-white flex items-center space-x-2 transition">
+            <i class="fa-solid fa-list-ul text-[10px] text-gray-400"></i>
+            <span>Semua Data</span>
+          </button>
+        `;
+        cats.forEach(c => {
+          sideContainer.innerHTML += `
+            <button onclick="sidebarActionFilter('${c}')" class="w-full text-left px-3 py-1.5 rounded hover:bg-white/10 text-gray-300 hover:text-white flex items-center space-x-2 transition">
+              <i class="fa-solid fa-tag text-[10px] text-amber-400"></i>
+              <span>${c}</span>
+            </button>
+          `;
+        });
+      }
+
+      // 2. Admin Table Filters
+      const filterContainer = document.getElementById('adminCategoryFiltersContainer');
+      if (filterContainer) {
+        filterContainer.innerHTML = `
+          <button onclick="setCategoryFilter('ALL')" id="filterAll" class="cat-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-brand-navy text-white shadow-sm shrink-0">
+            Semua (<span id="countAll">0</span>)
+          </button>
+        `;
+        cats.forEach(c => {
+          filterContainer.innerHTML += `
+            <button onclick="setCategoryFilter('${c}')" id="filter_${c.replace(/\s+/g, '_')}" class="cat-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-600 hover:bg-gray-100 border border-gray-200 shrink-0">
+              ${c} (<span id="count_${c.replace(/\s+/g, '_')}">0</span>)
+            </button>
+          `;
+        });
+      }
+
+      // 3. Dropdowns Select
+      const addSelect = document.getElementById('formCategory');
+      const importSelect = document.getElementById('importDefaultCategory');
+      const editorSelect = document.getElementById('editorCategorySelect');
+
+      [addSelect, importSelect, editorSelect].forEach(sel => {
+        if (!sel) return;
+        const curVal = sel.value;
+        sel.innerHTML = '';
+        cats.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c;
+          opt.innerText = c;
+          sel.appendChild(opt);
+        });
+        if (curVal && cats.includes(curVal)) sel.value = curVal;
+      });
+    }
+
+    // TAMBAH KATEGORI KUSTOM BARU PER AGENDA
+    async function promptAddNewCategory() {
+      if (!state.currentAgenda) return;
+      const catName = prompt("Masukkan nama kategori sertifikat baru (contoh: Pemateri, Juri, VIP):");
+      if (catName && catName.trim() !== '') {
+        const cleanCat = catName.trim();
+        if (!state.currentAgenda.categories) state.currentAgenda.categories = [];
+        if (!state.currentAgenda.categories.includes(cleanCat)) {
+          state.currentAgenda.categories.push(cleanCat);
+          await db.collection("agendas").doc(state.currentAgenda.id).set(state.currentAgenda, { merge: true });
+          renderDynamicCategoriesUI();
+          renderAdminTable();
+          showToast(`Kategori "${cleanCat}" berhasil ditambahkan!`, "success");
+        } else {
+          showToast("Kategori ini sudah ada!", "warning");
+        }
+      }
     }
 
     async function loadCertificatesForAgenda(agendaId) {
@@ -1091,6 +1157,7 @@
     }
 
     function goToAgendasGrid() {
+      if (!state.isAdminLoggedIn) { openLoginModal(); return; }
       switchView('agendas_grid');
     }
 
@@ -1099,6 +1166,7 @@
       document.getElementById('agendaFormTitle').value = '';
       document.getElementById('agendaFormDate').value = '';
       document.getElementById('agendaFormLocation').value = '';
+      document.getElementById('agendaFormThemeColor').value = '#fa4622';
       document.getElementById('agendaFormBanner').value = '';
       document.getElementById('addAgendaModal').classList.remove('hidden');
     }
@@ -1113,9 +1181,10 @@
       const title = document.getElementById('agendaFormTitle').value.trim();
       const date = document.getElementById('agendaFormDate').value.trim();
       const location = document.getElementById('agendaFormLocation').value.trim();
+      const themeColor = document.getElementById('agendaFormThemeColor').value;
       const bannerUrl = document.getElementById('agendaFormBanner').value.trim();
 
-      const newAgenda = { id, title, date, location, bannerUrl };
+      const newAgenda = { id, title, date, location, themeColor, categories: ["Peserta", "Bindamping", "Panitia", "Petugas Upacara"], bannerUrl };
       await db.collection("agendas").doc(id).set(newAgenda, { merge: true });
       state.agendas.push(newAgenda);
       renderAgendasGrid();
@@ -1167,6 +1236,7 @@
         if (sideIcon) sideIcon.className = "fa-solid fa-lock text-emerald-400";
         if (sideText) sideText.innerText = "Login Admin";
       }
+      updateNavigationVisibility();
     }
 
     function handleAdminAuthClick() {
@@ -1181,6 +1251,7 @@
             state.isAdminLoggedIn = false;
             localStorage.removeItem('kembaranas_admin_session');
             showToast("Logout admin berhasil", "info");
+            updateNavigationVisibility();
             switchView('public_search');
           }
         });
@@ -1199,6 +1270,7 @@
         state.isAdminLoggedIn = true;
         localStorage.setItem('kembaranas_admin_session', 'true');
         closeLoginModal();
+        updateNavigationVisibility();
         showToast("Login berhasil! Selamat datang Admin.", "success");
         if (state.currentAgenda) switchView('admin');
         else switchView('agendas_grid');
@@ -1341,10 +1413,10 @@
           <p class="text-sm font-semibold text-gray-700">${state.currentAgenda ? state.currentAgenda.title : 'SAKO SIT Lampung'}</p>
         </div>
         <div class="bg-red-50 p-3 rounded-lg border border-red-100">
-          <span class="text-xs font-bold text-brand-darkred">Penerima Sertifikat:</span>
+          <span class="text-xs font-bold text-red-700">Penerima Sertifikat:</span>
           <p class="text-base font-extrabold text-gray-900 mt-1">${cert.name}</p>
           <p class="text-xs font-semibold text-gray-600">${cert.school}</p>
-          <span class="mt-2 inline-block px-2.5 py-0.5 bg-brand-red text-white text-[10px] font-bold rounded uppercase">${cert.category}</span>
+          <span class="mt-2 inline-block px-2.5 py-0.5 bg-red-600 text-white text-[10px] font-bold rounded uppercase dynamic-theme-bg">${cert.category}</span>
         </div>
       `;
     }
@@ -1400,11 +1472,14 @@
     }
 
     function renderAdminTable() {
-      document.getElementById('countAll').innerText = state.certificates.length;
-      document.getElementById('countPeserta').innerText = state.certificates.filter(c => c.category === 'Peserta').length;
-      document.getElementById('countBindamping').innerText = state.certificates.filter(c => c.category === 'Bindamping').length;
-      document.getElementById('countPanitia').innerText = state.certificates.filter(c => c.category === 'Panitia').length;
-      document.getElementById('countPetugas').innerText = state.certificates.filter(c => c.category === 'Petugas Upacara').length;
+      const cats = state.currentAgenda && state.currentAgenda.categories ? state.currentAgenda.categories : [];
+      const countAll = document.getElementById('countAll');
+      if (countAll) countAll.innerText = state.certificates.length;
+
+      cats.forEach(c => {
+        const countEl = document.getElementById(`count_${c.replace(/\s+/g, '_')}`);
+        if (countEl) countEl.innerText = state.certificates.filter(cert => cert.category === c).length;
+      });
 
       const tbody = document.getElementById('adminDataTableBody');
       tbody.innerHTML = '';
@@ -1507,7 +1582,6 @@
       });
     }
 
-    // CEK URL SAAT HALAMAN PERTAMA KALI DIBUKA (PERSYARATAN 2)
     function checkURLParameters() {
       const urlParams = new URLSearchParams(window.location.search);
       const ag = urlParams.get('agenda');
@@ -1518,7 +1592,6 @@
       } else if (ag) {
         selectAgenda(ag);
       } else {
-        // DEFAULT LANDING PAGE: TAMPILAN CEK KEASLIAN SERTIFIKAT PUBLIK
         switchView('public_search');
       }
     }
@@ -1537,7 +1610,8 @@
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "#fdfbf7"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = "#fa4622"; ctx.lineWidth = 14; ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+      ctx.strokeStyle = state.currentAgenda && state.currentAgenda.themeColor ? state.currentAgenda.themeColor : "#fa4622";
+      ctx.lineWidth = 14; ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
       ctx.fillStyle = "#0f172a"; ctx.font = "bold 32px 'Plus Jakarta Sans'"; ctx.textAlign = "center";
       ctx.fillText("SERTIFIKAT PENGHARGAAN", canvas.width / 2, 180);
       ctx.fillStyle = "#d97706"; ctx.font = "bold 18px 'Plus Jakarta Sans'";
