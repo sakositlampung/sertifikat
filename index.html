@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistem Sertifikat Multi-Agenda - SAKO SIT Lampung</title>
+  <title>Sistem Sertifikat SAKO SIT Lampung</title>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -84,27 +84,33 @@
     <!-- Active Agenda Info Badge -->
     <div id="sidebarActiveAgendaBanner" class="p-3 bg-white/10 border-b border-white/10 text-xs">
       <span class="text-[10px] text-amber-300 font-bold uppercase tracking-wider block">Agenda Aktif:</span>
-      <span id="sidebarAgendaTitleText" class="font-extrabold text-white text-sm block truncate">Belum Memilih Agenda</span>
+      <span id="sidebarAgendaTitleText" class="font-extrabold text-white text-sm block truncate">Semua Agenda (Global)</span>
     </div>
 
     <!-- Sidebar Navigation Menu Items -->
     <div class="p-4 space-y-3 flex-grow text-xs font-medium">
       
+      <!-- CEK SERTIFIKAT PUBLIK (UTAMA) -->
+      <button onclick="sidebarNav('public_search')" class="w-full text-left px-3 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 flex items-center space-x-2 font-bold text-white transition">
+        <i class="fa-solid fa-magnifying-glass text-amber-400"></i>
+        <span>Cek Keaslian Sertifikat</span>
+      </button>
+
       <!-- KATALOG AGENDA NAV -->
       <button onclick="goToAgendasGrid()" class="w-full text-left px-3 py-2.5 rounded-lg bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 flex items-center space-x-2 font-bold transition">
         <i class="fa-solid fa-folder-tree text-amber-400"></i>
-        <span>Katalog Daftar Agenda</span>
+        <span>Katalog Agenda / Kelola Admin</span>
       </button>
 
       <div class="border-t border-white/10 my-2"></div>
 
-      <!-- DATA SERTIFIKAT MENU & SUBMENU (UNTUK AGENDA AKTIF) -->
+      <!-- DATA SERTIFIKAT MENU & SUBMENU -->
       <div id="sidebarAgendaScopeMenus" class="space-y-3">
         <div class="space-y-1">
           <button onclick="toggleDataSertifikatSubmenu()" class="w-full px-3 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-between transition text-left">
             <span class="flex items-center space-x-2 font-bold text-amber-200">
               <i class="fa-solid fa-table-list text-brand-red"></i>
-              <span>Data Sertifikat</span>
+              <span>Data Sertifikat Agenda</span>
             </span>
             <i id="dataSubmenuArrow" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-200"></i>
           </button>
@@ -139,27 +145,19 @@
             </button>
             <button onclick="sidebarActionAdd()" class="w-full text-left px-3 py-1.5 rounded bg-brand-red/30 hover:bg-brand-red/50 text-red-300 font-bold flex items-center space-x-2 transition">
               <i class="fa-solid fa-plus text-xs"></i>
-              <span>Tambah Data Sertifikat</span>
+              <span>Tambah Data</span>
             </button>
           </div>
         </div>
 
-        <!-- IMPORT EXCEL -->
         <button onclick="sidebarNav('import')" class="w-full text-left px-3 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 flex items-center space-x-2 font-bold text-gray-200 transition">
           <i class="fa-solid fa-file-excel text-emerald-400"></i>
           <span>Import Excel</span>
         </button>
 
-        <!-- CANVAS EDITOR -->
         <button onclick="sidebarNav('template')" class="w-full text-left px-3 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 flex items-center space-x-2 font-bold text-gray-200 transition">
           <i class="fa-solid fa-pen-ruler text-amber-400"></i>
-          <span>Canvas Editor Layout</span>
-        </button>
-
-        <!-- CEK SERTIFIKAT PUBLIK -->
-        <button onclick="sidebarNav('public_search')" class="w-full text-left px-3 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 flex items-center space-x-2 font-bold text-gray-200 transition">
-          <i class="fa-solid fa-magnifying-glass text-blue-400"></i>
-          <span>Cek Keaslian Sertifikat Agenda Ini</span>
+          <span>Canvas Editor</span>
         </button>
       </div>
 
@@ -183,19 +181,24 @@
           <i id="hamburgerIcon" class="fa-solid fa-bars"></i>
         </button>
 
-        <div class="flex items-center space-x-2.5 cursor-pointer" onclick="goToAgendasGrid()">
+        <div class="flex items-center space-x-2.5 cursor-pointer" onclick="switchView('public_search')">
           <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-tr from-brand-red to-amber-500 flex items-center justify-center text-white shadow-sm font-bold border border-white/20 shrink-0">
             <i class="fa-solid fa-tent text-base sm:text-lg"></i>
           </div>
           <div>
             <h1 class="font-bold text-sm sm:text-lg leading-tight tracking-wide">SAKO SIT LAMPUNG</h1>
-            <p class="text-[10px] sm:text-[11px] text-gray-300" id="headerSubtitleText">Sistem Sertifikat Agenda</p>
+            <p class="text-[10px] sm:text-[11px] text-gray-300" id="headerSubtitleText">Sistem Sertifikat Resmi</p>
           </div>
         </div>
       </div>
 
       <!-- Right Action Buttons (Desktop Only) -->
       <div id="navRightButtons" class="hidden sm:flex items-center space-x-2 sm:space-x-3">
+        <button onclick="switchView('public_search')" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs sm:text-sm font-medium transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Cek Sertifikat</span>
+        </button>
+
         <button onclick="goToAgendasGrid()" class="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs sm:text-sm font-bold transition flex items-center space-x-1.5">
           <i class="fa-solid fa-folder-tree"></i>
           <span>Daftar Agenda</span>
@@ -212,17 +215,42 @@
   <!-- MAIN APPLICATION CONTENT -->
   <main class="flex-grow flex flex-col">
 
-    <!-- VIEW 0: AGENDAS GRID LANDING PAGE (BERANDA DUKUNGAN MULTI-AGENDA) -->
-    <section id="viewAgendasGrid" class="flex-grow bg-gray-50 py-8 px-4">
+    <!-- VIEW 1: PUBLIC SEARCH PAGE (DEFAULT UTAMA LANDING PAGE) -->
+    <section id="viewPublicSearch" class="flex-grow bg-gradient-to-b from-[#fa4622] via-[#f03212] to-[#d82103] py-8 sm:py-12 px-4 flex flex-col items-center justify-center text-white">
+      <div class="max-w-xl w-full text-center space-y-6">
+        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full mx-auto flex items-center justify-center text-brand-red text-2xl sm:text-3xl shadow-xl">
+          <i class="fa-solid fa-certificate"></i>
+        </div>
+        <div>
+          <h2 class="text-xl sm:text-3xl font-extrabold tracking-wide uppercase">Cek Keaslian Sertifikat</h2>
+          <p class="text-white/80 text-xs sm:text-sm mt-1" id="searchScopeAgendaTitle">Sertifikat Kegiatan SAKO SIT Lampung</p>
+        </div>
+
+        <div class="bg-white/10 backdrop-blur-md p-2 rounded-2xl border border-white/20 shadow-2xl flex flex-col sm:flex-row gap-2">
+          <input type="text" id="publicSearchInput" placeholder="Masukkan Nama Lengkap, Nomor Sertifikat, atau 4 Digit ID..." 
+                 onkeypress="if(event.key==='Enter') searchCertificate()"
+                 class="w-full px-4 py-3 rounded-xl bg-white text-gray-800 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400">
+          <button onclick="searchCertificate()" class="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-gray-900 font-bold rounded-xl text-sm transition shadow flex items-center justify-center space-x-2 shrink-0">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Cari</span>
+          </button>
+        </div>
+
+        <div id="publicSearchResults" class="hidden w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 shadow-2xl text-left space-y-3"></div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: AGENDAS GRID CATALOG (KELOLA / PILIH AGENDA) -->
+    <section id="viewAgendasGrid" class="hidden flex-grow bg-gray-50 py-8 px-4">
       <div class="max-w-7xl mx-auto space-y-6">
         
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
           <div>
             <h2 class="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight flex items-center space-x-2">
               <i class="fa-solid fa-calendar-days text-brand-red"></i>
-              <span>Katalog Agenda & Kegiatan SAKO SIT</span>
+              <span>Katalog Agenda Kegiatan SAKO SIT</span>
             </h2>
-            <p class="text-xs sm:text-sm text-gray-500 mt-1">Pilih agenda kegiatan di bawah ini untuk melihat, mengecek, atau mengelola sertifikat.</p>
+            <p class="text-xs sm:text-sm text-gray-500 mt-1">Klik pada salah satu agenda di bawah ini untuk mengelola data sertifikat dan Admin Panel.</p>
           </div>
 
           <button id="btnAddNewAgenda" onclick="openAddAgendaModal()" class="hidden px-4 py-2.5 bg-brand-red hover:bg-brand-darkred text-white font-bold rounded-xl text-xs sm:text-sm shadow transition flex items-center space-x-2 shrink-0">
@@ -236,7 +264,7 @@
       </div>
     </section>
 
-    <!-- VIEW 1: PUBLIC VERIFICATION PAGE -->
+    <!-- VIEW 3: PUBLIC VERIFICATION PAGE -->
     <section id="viewPublicVerification" class="hidden flex-grow bg-gradient-to-b from-[#fa4622] via-[#f03212] to-[#d82103] py-10 px-4 flex flex-col items-center justify-center">
       <div class="mb-6 text-center">
         <div class="w-24 h-24 sm:w-28 sm:h-28 bg-white rounded-full mx-auto flex items-center justify-center p-2 shadow-xl border-4 border-white/30">
@@ -271,32 +299,7 @@
       </div>
     </section>
 
-    <!-- VIEW 2: PUBLIC SEARCH PAGE -->
-    <section id="viewPublicSearch" class="hidden flex-grow bg-gradient-to-b from-[#fa4622] via-[#f03212] to-[#d82103] py-8 sm:py-12 px-4 flex flex-col items-center justify-center text-white">
-      <div class="max-w-xl w-full text-center space-y-6">
-        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full mx-auto flex items-center justify-center text-brand-red text-2xl sm:text-3xl shadow-xl">
-          <i class="fa-solid fa-certificate"></i>
-        </div>
-        <div>
-          <h2 class="text-xl sm:text-3xl font-extrabold tracking-wide uppercase">Cek Keaslian Sertifikat</h2>
-          <p class="text-white/80 text-xs sm:text-sm mt-1" id="searchScopeAgendaTitle">Agenda SAKO SIT Indonesia</p>
-        </div>
-
-        <div class="bg-white/10 backdrop-blur-md p-2 rounded-2xl border border-white/20 shadow-2xl flex flex-col sm:flex-row gap-2">
-          <input type="text" id="publicSearchInput" placeholder="Masukkan Nama Lengkap, Nomor Sertifikat, atau 4 Digit ID..." 
-                 onkeypress="if(event.key==='Enter') searchCertificate()"
-                 class="w-full px-4 py-3 rounded-xl bg-white text-gray-800 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400">
-          <button onclick="searchCertificate()" class="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-gray-900 font-bold rounded-xl text-sm transition shadow flex items-center justify-center space-x-2 shrink-0">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <span>Cari</span>
-          </button>
-        </div>
-
-        <div id="publicSearchResults" class="hidden w-full bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 shadow-2xl text-left space-y-3"></div>
-      </div>
-    </section>
-
-    <!-- VIEW 3: ADMIN DASHBOARD -->
+    <!-- VIEW 4: ADMIN DASHBOARD -->
     <section id="viewAdminDashboard" class="hidden flex-grow bg-gray-50 flex flex-col">
       <div class="bg-white border-b border-gray-200 sticky top-16 z-30 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-2.5">
@@ -874,7 +877,7 @@
       layouts: {},
       loadedBgImages: {}, 
       isAdminLoggedIn: false,
-      currentView: 'agendas_grid',
+      currentView: 'public_search',
       adminTab: 'data',
       activeCategoryFilter: 'ALL',
       activeCert: null,
@@ -933,7 +936,7 @@
 
     function sidebarActionFilter(cat) {
       closeSidebar();
-      if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu!", "warning"); return; }
+      if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu dari Katalog!", "warning"); goToAgendasGrid(); return; }
       if (!state.isAdminLoggedIn) { openLoginModal(); return; }
       switchView('admin');
       switchAdminTab('data');
@@ -942,7 +945,7 @@
 
     function sidebarActionExport() {
       closeSidebar();
-      if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu!", "warning"); return; }
+      if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu dari Katalog!", "warning"); goToAgendasGrid(); return; }
       if (!state.isAdminLoggedIn) { openLoginModal(); return; }
       switchView('admin');
       switchAdminTab('data');
@@ -951,7 +954,7 @@
 
     function sidebarActionAdd() {
       closeSidebar();
-      if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu!", "warning"); return; }
+      if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu dari Katalog!", "warning"); goToAgendasGrid(); return; }
       if (!state.isAdminLoggedIn) { openLoginModal(); return; }
       switchView('admin');
       switchAdminTab('data');
@@ -960,10 +963,10 @@
 
     function sidebarNav(target) {
       closeSidebar();
-      if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu!", "warning"); return; }
       if (target === 'public_search') {
         switchView('public_search');
       } else {
+        if (!state.currentAgenda) { showToast("Silakan pilih agenda terlebih dahulu dari Katalog!", "warning"); goToAgendasGrid(); return; }
         if (!state.isAdminLoggedIn) { openLoginModal(); return; }
         switchView('admin');
         switchAdminTab(target);
@@ -973,6 +976,7 @@
     window.addEventListener('DOMContentLoaded', async () => {
       state.isAdminLoggedIn = localStorage.getItem('kembaranas_admin_session') === 'true';
       await loadInitialAgendas();
+      await loadAllCertificatesGlobal();
       loadLayoutSettings();
       checkURLParameters();
     });
@@ -996,6 +1000,15 @@
       renderAgendasGrid();
     }
 
+    async function loadAllCertificatesGlobal() {
+      try {
+        const snapshot = await db.collection("certificates").get();
+        const fetched = [];
+        snapshot.forEach(doc => fetched.push(doc.data()));
+        state.certificates = fetched;
+      } catch(e) { console.error(e); }
+    }
+
     function renderAgendasGrid() {
       const container = document.getElementById('agendasGridContainer');
       const addBtn = document.getElementById('btnAddNewAgenda');
@@ -1005,6 +1018,8 @@
       state.agendas.forEach(ag => {
         const card = document.createElement('div');
         card.className = "bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer group";
+        
+        // KLIK AGENDA LANGSUNG MEMBUKA ADMIN PANEL (PERSYARATAN 1)
         card.onclick = () => selectAgenda(ag.id);
 
         const banner = ag.bannerUrl || "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?w=600&auto=format&fit=crop&q=60";
@@ -1029,8 +1044,8 @@
             </div>
             <div class="pt-2 border-t border-gray-100 flex items-center justify-between">
               <span class="text-xs font-bold text-gray-700 flex items-center space-x-1">
-                <i class="fa-solid fa-certificate text-amber-500"></i>
-                <span>Buka Aplikasi Sertifikat</span>
+                <i class="fa-solid fa-shield-halved text-brand-red"></i>
+                <span>Buka Admin Panel Agenda Ini</span>
               </span>
               <span class="w-8 h-8 rounded-full bg-brand-red/10 group-hover:bg-brand-red text-brand-red group-hover:text-white flex items-center justify-center transition">
                 <i class="fa-solid fa-arrow-right text-xs"></i>
@@ -1042,6 +1057,7 @@
       });
     }
 
+    // MEMILIH AGENDA -> LANGSUNG MEMBUKA DASHBOARD ADMIN
     async function selectAgenda(agendaId) {
       const found = state.agendas.find(a => a.id === agendaId);
       if (!found) return;
@@ -1053,9 +1069,14 @@
       document.getElementById('searchScopeAgendaTitle').innerText = found.title;
       document.getElementById('verificationBadgeTitle').innerText = found.id.toUpperCase();
 
-      showToast(`Memuat data untuk agenda: ${found.title}`, "info");
+      showToast(`Membuka Admin Panel: ${found.title}`, "info");
       await loadCertificatesForAgenda(agendaId);
-      switchView('public_search');
+
+      // JIKA BELUM LOGIN ADMIN, AUTOMATIS BUKA MODAL LOGIN
+      if (!state.isAdminLoggedIn) {
+        openLoginModal();
+      }
+      switchView('admin');
     }
 
     async function loadCertificatesForAgenda(agendaId) {
@@ -1070,9 +1091,6 @@
     }
 
     function goToAgendasGrid() {
-      state.currentAgenda = null;
-      document.getElementById('sidebarAgendaTitleText').innerText = "Belum Memilih Agenda";
-      document.getElementById('sidebarAgendaScopeMenus').classList.add('hidden');
       switchView('agendas_grid');
     }
 
@@ -1114,6 +1132,7 @@
 
       if (viewName === 'agendas_grid') {
         document.getElementById('viewAgendasGrid').classList.remove('hidden');
+        renderAgendasGrid();
       } else if (viewName === 'public_verification') {
         document.getElementById('viewPublicVerification').classList.remove('hidden');
         renderPublicVerificationPage();
@@ -1148,7 +1167,6 @@
         if (sideIcon) sideIcon.className = "fa-solid fa-lock text-emerald-400";
         if (sideText) sideText.innerText = "Login Admin";
       }
-      renderAgendasGrid();
     }
 
     function handleAdminAuthClick() {
@@ -1163,7 +1181,7 @@
             state.isAdminLoggedIn = false;
             localStorage.removeItem('kembaranas_admin_session');
             showToast("Logout admin berhasil", "info");
-            goToAgendasGrid();
+            switchView('public_search');
           }
         });
       } else { openLoginModal(); }
@@ -1236,6 +1254,11 @@
       if (!query) return;
       const q = String(query).trim().toLowerCase();
       let matches = filterCertificates(q);
+
+      if (matches.length === 0) {
+        await loadAllCertificatesGlobal();
+        matches = filterCertificates(q);
+      }
 
       const resultsContainer = document.getElementById('publicSearchResults');
 
@@ -1315,7 +1338,7 @@
         </div>
         <div class="border-b pb-3">
           <span class="text-xs font-bold text-gray-800">Agenda / Kegiatan:</span>
-          <p class="text-sm font-semibold text-gray-700">${state.currentAgenda ? state.currentAgenda.title : 'SAKO SIT'}</p>
+          <p class="text-sm font-semibold text-gray-700">${state.currentAgenda ? state.currentAgenda.title : 'SAKO SIT Lampung'}</p>
         </div>
         <div class="bg-red-50 p-3 rounded-lg border border-red-100">
           <span class="text-xs font-bold text-brand-darkred">Penerima Sertifikat:</span>
@@ -1484,10 +1507,20 @@
       });
     }
 
+    // CEK URL SAAT HALAMAN PERTAMA KALI DIBUKA (PERSYARATAN 2)
     function checkURLParameters() {
       const urlParams = new URLSearchParams(window.location.search);
       const ag = urlParams.get('agenda');
-      if (ag) selectAgenda(ag);
+      const certId = urlParams.get('id') || urlParams.get('no') || urlParams.get('code');
+
+      if (certId) {
+        loadCertByCode(certId);
+      } else if (ag) {
+        selectAgenda(ag);
+      } else {
+        // DEFAULT LANDING PAGE: TAMPILAN CEK KEASLIAN SERTIFIKAT PUBLIK
+        switchView('public_search');
+      }
     }
 
     function onEditorCategoryChange() {
