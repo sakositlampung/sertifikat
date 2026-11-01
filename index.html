@@ -161,7 +161,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
       <div class="flex items-center space-x-3">
-        <!-- TOMBOL HAMBURGER GARIS 3 (DEFAULT: HIDDEN / HANYA MUNCUL JIKA ADMIN LOGGED IN) -->
+        <!-- HAMBURGER MENU BUTTON (HANYA TAMPIL SETELAH LOGIN ADMIN) -->
         <button id="btnHamburger" onclick="toggleSidebar()" class="hidden p-2 text-white hover:bg-white/10 rounded-lg text-lg transition focus:outline-none flex items-center justify-center w-9 h-9">
           <i id="hamburgerIcon" class="fa-solid fa-bars"></i>
         </button>
@@ -172,7 +172,7 @@
           </div>
           <div>
             <h1 class="font-bold text-sm sm:text-lg leading-tight tracking-wide">SAKO SIT LAMPUNG</h1>
-            <p class="text-[10px] sm:text-[11px] text-gray-300" id="headerSubtitleText">Sistem Sertifikat Resmi</p>
+            <p class="text-[10px] sm:text-[11px] text-gray-300" id="headerSubtitleText">Sistem Sertifikat Realtime Cloud</p>
           </div>
         </div>
       </div>
@@ -199,7 +199,7 @@
   <!-- MAIN APPLICATION CONTENT -->
   <main class="flex-grow flex flex-col">
 
-    <!-- VIEW 1: PUBLIC SEARCH PAGE (DEFAULT UTAMA LANDING PAGE) -->
+    <!-- VIEW 1: PUBLIC SEARCH PAGE -->
     <section id="viewPublicSearch" class="flex-grow bg-gradient-to-b from-red-600 via-red-700 to-red-800 py-8 sm:py-12 px-4 flex flex-col items-center justify-center text-white transition-colors duration-500">
       <div class="max-w-xl w-full text-center space-y-6">
         <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full mx-auto flex items-center justify-center text-red-600 text-2xl sm:text-3xl shadow-xl dynamic-theme-text overflow-hidden p-3">
@@ -1022,13 +1022,16 @@
       updateNavigationVisibility();
     });
 
+    // 2. KONEKSI FIREBASE REALTIME ON-SNAPSHOT UNTUK MULTI-USER & SINKRONISASI OTOMATIS
     function setupFirebaseRealtimeListeners() {
+      // 2A. Listener Realtime untuk Daftar Agenda
       state.unsubscribeAgendas = db.collection("agendas").onSnapshot(snapshot => {
         if (!snapshot.empty) {
           const list = [];
           snapshot.forEach(doc => list.push(doc.data()));
           state.agendas = list;
 
+          // Apabila agenda yang sedang dibuka di-update oleh user lain
           if (state.currentAgenda) {
             const updated = list.find(a => a.id === state.currentAgenda.id);
             if (updated) {
@@ -1038,6 +1041,7 @@
             }
           }
         } else {
+          // Inisialisasi awal ke Firebase jika Firestore masih kosong
           const batch = db.batch();
           DEFAULT_AGENDAS.forEach(ag => batch.set(db.collection("agendas").doc(ag.id), ag));
           batch.commit();
@@ -1050,6 +1054,7 @@
         renderAgendasGrid();
       });
 
+      // 2B. Listener Realtime untuk Layout Canvas Pengaturan Global Cloud
       state.unsubscribeLayouts = db.collection("settings").doc("canvasLayout").onSnapshot(doc => {
         if (doc.exists) {
           state.layouts = doc.data();
@@ -1059,6 +1064,7 @@
       });
     }
 
+    // Listener Realtime khusus Data Sertifikat Agenda Aktif
     function listenToCertificatesRealtime(agendaId) {
       if (state.unsubscribeCertificates) state.unsubscribeCertificates();
 
@@ -1072,7 +1078,7 @@
         }, err => console.error("Firestore Certs Error:", err));
     }
 
-    // PENGATURAN VISIBILITAS TOMBOL DAFTAR AGENDA & TOMBOL HAMBURGER GARIS 3 (HANYA SETELAH LOGIN)
+    // PERBAIKAN: Sembunyikan/Tampilkan Tombol Hamburger 3 Garis Sesuai Sesi Admin Login
     function updateNavigationVisibility() {
       const isLogged = state.isAdminLoggedIn;
       const navBtn = document.getElementById('navAgendasBtn');
@@ -1145,7 +1151,6 @@
       document.getElementById('sidebarAgendaScopeMenus').classList.remove('hidden');
       document.getElementById('adminDashboardAgendaName').innerText = found.title;
       document.getElementById('searchScopeAgendaTitle').innerText = found.title;
-      document.getElementById('verificationBadgeTitle').innerText = found.id.toUpperCase();
 
       renderDynamicCategoriesUI();
       listenToCertificatesRealtime(agendaId);
